@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml3d xmlns="http://www.w3.org/1999/xhtml">
+	<defs>
+		<shader id="shader_surface" script="urn:xml3d:shader:diffuse">
+			<float3 name="diffuseColor">1 1 1</float3>
+			<float name="ambientIntensity">0.5686</float>
+			<float name="transparency">0.0</float>
+		</shader>
+	</defs>
+	<data id="mesh_ground">
+		<int name="index">0 1 2 1 2 3</int>
+		<float3 name="position">
+			0.0 0.0 0.0
+			1.0 0.0 0.0
+			0.0 0.0 1.0
+			1.0 0.0 1.0
+		</float3>
+		<float3 name="normal">
+			0.0 1.0 0.0
+			0.0 1.0 0.0
+			0.0 1.0 0.0
+			0.0 1.0 0.0
+		</float3>
+		<float2 name="texcoord">
+			0.0 1.0
+			1.0 1.0
+			0.0 0.0
+			1.0 0.0
+		</float2>
+	</data>
+</xml3d>
