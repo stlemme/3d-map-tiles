@@ -23,5 +23,5 @@ header('Content-type: application/xml');
 ?>
 <?xml version="1.0" encoding="UTF-8"?>
 <xml3d xmlns="http://www.xml3d.org/2009/xml3d">
-	<model src="<?php echo $y; ?>.xml#asset" transform="<?php echo $y; ?>.xml#tf"/>
+	<model src="<?php echo $y; ?>-asset.xml#asset" transform="<?php echo $y; ?>-asset.xml#tf"/>
 </xml3d>
