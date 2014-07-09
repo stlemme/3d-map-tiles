@@ -24,6 +24,7 @@ $baseurl = dirname($_SERVER['SCRIPT_NAME']);
 
 //$texture = $y . '-texture.png';
 $texture = 'http://' . $_SERVER['HTTP_HOST'] . '/api/tiles/filab/' . $z . '/' . $x . '/' . $y . '.png';
+$mesh = 'http://' . $_SERVER['HTTP_HOST'] . $baseurl . '/basic.xml';
 
 ?>
 <?xml version="1.0" encoding="UTF-8"?>
@@ -32,8 +33,8 @@ $texture = 'http://' . $_SERVER['HTTP_HOST'] . '/api/tiles/filab/' . $z . '/' . 
 		<transform id="tf" translation="<?php echo $x; ?> 0 <?php echo $y; ?>"/>
 	</defs>
 	<asset id="asset">
-		<assetmesh meshtype="triangles" shader="<?php echo $baseurl; ?>/basic.xml#shader_surface">
-			<data src="<?php echo $baseurl; ?>/basic.xml#mesh_ground"/>
+		<assetmesh meshtype="triangles" shader="<?php echo $mesh; ?>#shader_surface">
+			<data src="<?php echo $mesh; ?>#mesh_ground"/>
 			<texture name="diffuseTexture">
 				<img src="<?php echo $texture; ?>"/>
 			</texture>

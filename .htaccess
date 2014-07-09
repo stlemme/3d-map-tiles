@@ -1,0 +1,34 @@
+
+<IfModule mod_rewrite.c>
+
+    RewriteEngine on
+
+    RewriteBase /api/ground-tiles
+
+    # RewriteRule ^([a-z]+/[0-9]+/[0-9]+/[0-9]+\.xml+)$  cache/$1 [NC]
+    # RewriteCond %{REQUEST_FILENAME}  !-f
+
+    # xml3d model
+    RewriteRule ^([a-z]+)/([0-9]+)/([0-9]+)/([0-9]+)\.xml$  model.php?provider=$1&z=$2&x=$3&y=$4
+
+    # xml3d asset (assetmesh, transform, shader)
+    RewriteRule ^([a-z]+)/([0-9]+)/([0-9]+)/([0-9]+)\-asset\.xml$  asset.php?provider=$1&z=$2&x=$3&y=$4
+
+    # xml3d texture
+    RewriteRule ^([a-z]+)/([0-9]+)/([0-9]+)/([0-9]+)\-texture\.png$  texture.php?provider=$1&z=$2&x=$3&y=$4
+
+    # secure .git directory if any
+    RewriteRule ^\.git/.*$  -  [F]
+</IfModule>
+
+# secure other git files
+<FilesMatch "(\.git.*)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
