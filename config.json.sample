@@ -1,0 +1,8 @@
+{
+	"filab": {
+		"backend": "osm-texture",
+		"config": {
+			"url": "http://130.206.80.175/api/tiles/filab"
+		}
+	}
+}
