@@ -78,8 +78,8 @@ class Transform extends XmlElement
 	public function __construct($trans, $rot, $scale)
 	{
 		$attrs = array();
-		if ($trans !== null) $attrs['translate'] = $trans;
-		if ($rot !== null) $attrs['rotate'] = $rot;
+		if ($trans !== null) $attrs['translation'] = $trans;
+		if ($rot !== null) $attrs['rotation'] = $rot;
 		if ($scale !== null) $attrs['scale'] = $scale;
 		parent::__construct($attrs);
 	}
