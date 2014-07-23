@@ -24,5 +24,5 @@ Installation
 Usage
 =====================
 
-- http://HOST/api/3d-map-tiles/filab/0/0/0.xml
-- http://HOST/api/3d-map-tiles/filab/0/0/0-asset.xml
+- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0.xml
+- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0-asset.xml
