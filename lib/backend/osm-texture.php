@@ -65,14 +65,6 @@ class OsmTexture extends Backend
 		return $tex;
 	}
 
-	public static function load($provider, $config)
-	{
-		$class = Utils::loadClassFromFile($provider, __DIR__ . '/backend');
-		if ($class === null)
-			return null;
-		return new $class($config);
-	}
-	
 	///////////////////////////////////////////////////
 	
 	protected function __construct($config) {
