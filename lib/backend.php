@@ -39,6 +39,8 @@ abstract class Backend
 		return Utils::json_path($this->config, $path);
 	}
 	
+	
+	
 }
 
 ?>

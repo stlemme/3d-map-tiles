@@ -38,6 +38,12 @@ class Response
 		echo $data->serialize();
 	}
 	
+	public static function image($data, $format)
+	{
+		header("Content-type: " . $format);
+		echo $data;
+	}
+	
 }
 
 ?>

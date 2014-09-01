@@ -19,12 +19,12 @@ $request = $_GET['request'];
 
 $configFile = realpath(__DIR__ . '/config.json');
 if ($configFile === null) {
-	Response::fail('No configuration file found!');
+	Response::fail(500, 'No configuration file found!');
 }
 
 $config = Utils::json_decode(file_get_contents($configFile));
 if ($config === null) {
-	Response::fail('No proper configuration found!');
+	Response::fail(500, 'No proper configuration found!');
 }
 
 
@@ -47,13 +47,20 @@ switch($request) {
 	case 'asset':
 		$result = $backend->getAssetData();
 		break;
+	case 'texture':
+		$result = $backend->getTexture();
+		break;
 	default:
 		$result = null;
 }
 
 if ($result !== null) {
 
-	Response::xml($result);
+	if ($request == 'texture') {
+		Response::image($result, "image/png");
+	} else {
+		Response::xml($result);
+	}
 
 } else {
 
