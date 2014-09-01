@@ -39,12 +39,23 @@ class WmsTexture extends Backend
 		return $xml3d;
 	}
 	
-	public function getTexture() {
-		$bbox = array(
-			427481,7210400,
-			428200,7211000
+	protected function tile_bounds($xtile, $ytile, $zoom) {
+		$n = pow(2, $zoom);
+		return array(
+			 $xtile      / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1 - 2 *  $ytile      / $n)))),
+			($xtile + 1) / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1 - 2 * ($ytile + 1) / $n))))
 		);
-		$srs = 'EPSG:3067';
+	}
+	
+	
+	public function getTexture() {
+		// $bbox = array(
+			// 427481,7210400,
+			// 428200,7211000
+		// );
+		$bbox = $this->tile_bounds($this->x, $this->y, $this->z);
+		// $srs = 'EPSG:3067';
+		$srs = 'EPSG:3857';
 		$format = 'image/png';
 		
 		$params = array(
