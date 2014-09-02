@@ -42,21 +42,17 @@ class WmsTexture extends Backend
 	protected function tile_bounds($xtile, $ytile, $zoom) {
 		$n = pow(2, $zoom);
 		return array(
-			 $xtile      / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1 - 2 *  $ytile      / $n)))),
-			($xtile + 1) / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1 - 2 * ($ytile + 1) / $n))))
+			 $xtile      / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1.0 - 2.0 * ($ytile + 1) / $n)))),
+			($xtile + 1) / $n * 360.0 - 180.0, rad2deg(atan(sinh(pi() * (1.0 - 2.0 * ($ytile    ) / $n))))
 		);
 	}
 	
 	
 	public function getTexture() {
-		// $bbox = array(
-			// 427481,7210400,
-			// 428200,7211000
-		// );
 		$bbox = $this->tile_bounds($this->x, $this->y, $this->z);
-		// $srs = 'EPSG:3067';
-		$srs = 'EPSG:3857';
+		$srs = 'EPSG:4326';
 		$format = 'image/png';
+		$tile_size = 256;
 		
 		$params = array(
 			'service' => 'WMS',
@@ -70,16 +66,13 @@ class WmsTexture extends Backend
 			'srs' => $srs,
 			'format' => $format,
 
-			'width' => 256,
-			'height' => 256
+			'width' => $tile_size,
+			'height' => $tile_size,
+			'bgcolor' => $this->config('params.bgcolor'),
+			'transparent' => ($this->config('params.transparent') ? 'true' : 'false')
 		);
 		
 		$url = $this->config('endpoint') . '?' . http_build_query($params);
-		// echo $url;
-		// exit;
-		
-		//$url = 'http://localhost/api/tiles/filab/' . $this->z . '/' . $this->x . '/' . $this->y . '.png';
-		//$url = 'http://a.tile.openstreetmap.org/' . $this->z . '/' . $this->x . '/' . $this->y . '.png';
 		
 		$data = file_get_contents($url);
 
