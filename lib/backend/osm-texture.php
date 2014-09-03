@@ -12,6 +12,9 @@ class OsmTexture extends Backend
 		return array('plane');
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+
+	// TODO: refactoring
 	public function getModel()
 	{
 		$xml3d = new Xml3d();
@@ -31,9 +34,9 @@ class OsmTexture extends Backend
 		foreach($this->getLayers() as $layer) {
 			$a = $xml3d->addAsset($layer);
 			$m = $a->addAssetMesh();
-			$m->setShader($this->getShader());
+			$m->setShader($this->getShaderReference());
 			$m->setMeshtype('triangles');
-			$m->addData($this->getGeometry());
+			$m->addData($this->getGeometryReference());
 			$m->addChild($this->getTextureReference());
 		}
 		return $xml3d;
@@ -43,19 +46,25 @@ class OsmTexture extends Backend
 		return null;
 	}
 	
-	public function getShader() {
+	///////////////////////////////////////////////////////////////////////////
+	
+	
+	// TODO: refactoring
+	protected function getShaderReference() {
 		return $this->getBaseUrl() . '/basic.xml#shader_surface';
 	}
 	
-	public function getBaseUrl() {
+	// TODO: refactoring
+	protected function getBaseUrl() {
 		return 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 	}
 
-	public function getGeometry() {
+	// TODO: refactoring
+	protected function getGeometryReference() {
 		return $this->getBaseUrl() . '/basic.xml#mesh_ground';
 	}
 	
-	public function getTextureReference() {
+	protected function getTextureReference() {
 		$tex = new Texture('diffuseTexture');
 		// TODO: use map replace
 		$url = $this->config('url');

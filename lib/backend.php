@@ -9,13 +9,15 @@ abstract class Backend
 	protected $z, $x, $y;
 	protected $config;
 	
+	///////////////////////////////////////////////////////////////////////////
+	
 	public function initialize($z, $x, $y) {
 		$this->z = $z;
 		$this->x = $x;
 		$this->y = $y;
 	}
 	
-	public function usecaching($request) {
+	public function useCaching($request) {
 		return false;
 	}
 	
@@ -24,7 +26,9 @@ abstract class Backend
 	public function getTexture() {
 		return null;
 	}
-
+	
+	///////////////////////////////////////////////////////////////////////////
+	
 	public static function load($backend, $config)
 	{
 		$class = Utils::loadClassFromFile($backend, __DIR__ . '/backend');
@@ -33,7 +37,7 @@ abstract class Backend
 		return new $class($config);
 	}
 	
-	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	
 	protected function __construct($config) {
 		$this->config = $config;
