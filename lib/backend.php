@@ -15,6 +15,10 @@ abstract class Backend
 		$this->y = $y;
 	}
 	
+	public function usecaching($request) {
+		return false;
+	}
+	
 	abstract public function getModel();
 	abstract public function getAssetData();
 	public function getTexture() {

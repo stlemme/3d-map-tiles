@@ -5,6 +5,8 @@
 require_once(__DIR__ . '/lib/backend.php');
 require_once(__DIR__ . '/lib/utils.php');
 require_once(__DIR__ . '/lib/response.php');
+require_once(__DIR__ . '/phpfastcache/phpfastcache.php');
+
 
 if (!isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['z']) || !isset($_GET['provider'])) {
 	Response::fail(400, 'Missing parameters!');
@@ -40,18 +42,37 @@ $backend = Backend::load($backend_type, $backend_config);
 $backend->initialize($z, $x, $y);
 
 
-switch($request) {
-	case 'model':
-		$result = $backend->getModel();
-		break;
-	case 'asset':
-		$result = $backend->getAssetData();
-		break;
-	case 'texture':
-		$result = $backend->getTexture();
-		break;
-	default:
-		$result = null;
+$data = null;
+
+if ($backend->usecaching($request)) {
+	$cache = phpFastCache();
+
+	$keyword = $_SERVER['REQUEST_URI'];
+	$data = $cache->get($keyword);
+}
+
+if ($data == null) {
+
+	switch($request) {
+		case 'model':
+			$result = $backend->getModel();
+			break;
+		case 'asset':
+			$result = $backend->getAssetData();
+			break;
+		case 'texture':
+			$result = $backend->getTexture();
+			break;
+		default:
+			$result = null;
+	}
+
+	if ($backend->usecaching($request)) {
+		$cache->set($keyword, $result, 300);
+	}
+	
+} else {
+	$result = $data;
 }
 
 if ($result !== null) {

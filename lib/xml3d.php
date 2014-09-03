@@ -121,7 +121,7 @@ class AssetMesh extends XmlElement
 	public function setMeshType($meshType) {
 		if ($meshType === null)
 			return;
-		$this->attributes['meshtype'] = $meshType;
+		$this->attributes['type'] = $meshType;
 	}
 	
 	public function setShader($shader) {
@@ -187,7 +187,55 @@ class Image extends XmlElement
 		return 'img';
 	}
 }
+
+class Float3 extends ArrayDataType
+{
+	public function __construct($name, $array) {
+		parent::__construct($name);
+		$this->setArray($array);
+	}
 	
+	protected function tagName() {
+		return 'float3';
+	}
+}
+
+class TextElement extends XmlElement
+{
+	private $text = '';
+	
+	public function __construct($text = null) {
+		if ($text !== null)
+			$this->text = $text;
+	}
+	
+	public function serialize() {
+		return $this->text;
+	}
+	
+	public function setText($text) {
+		$this->text = $text;
+	}
+
+	public function setArray($array) {
+		$this->text = implode($array, ' ');
+	}
+}
+
+class ArrayDataType extends XmlElement
+{
+	public function __construct($name) {
+		if ($name !== null)
+			$this->attributes['name'] = $name;
+	}
+	
+	public function setArray($array) {
+		$t = new TextElement();
+		$t->setArray($array);
+		$this->addChild($t);
+	}
+}
+
 
 class Texture extends XmlElement
 {
