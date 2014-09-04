@@ -33,7 +33,7 @@ class GisDataProvider extends Backend
 	}
 	
 	public function usecaching($request) {
-		return $request != 'model';
+		return false; // $request != 'model';
 	}
 	
 	public function getModel()
@@ -113,6 +113,38 @@ class GisDataProvider extends Backend
 	}
 
 	
+	protected function generateOutline($mesh, $vertices)
+	{
+		// export as single colored outline
+		$mesh->setShader($this->getShaderReference('silhouette'));
+		$mesh->setMeshtype('linestrips');
+		$data = $mesh->addData();
+		$data->filter("rename({position: contour})");
+		$data->addChild(new Float3('contour', $vertices));
+	}
+
+	protected function generatePolygon($mesh, $vertices)
+	{
+		// export as single colored triangulated polygon
+		$mesh->setShader($this->getShaderReference('silhouette'));
+		$mesh->setMeshtype('triangles');
+		$data = $mesh->addData();
+		$data->compute("dataflow['" . $this->getDataFlowReference('triangulate') . "']");
+		$data->addChild(new Float3('contour', $vertices));
+	}
+	
+	protected function generateBlock($mesh, $vertices)
+	{
+		$height = 5.0;
+		
+		$mesh->setShader($this->getShaderReference('building'));
+		$mesh->setMeshtype('triangles');
+		$data = $mesh->addData();
+		$data->compute("dataflow['" . $this->getDataFlowReference('extrude') . "']");
+		$data->addChild(new Float3('contour', $vertices));
+		$data->addChild(new Float('height', array($height)));
+	}
+	
 	protected function getBuildings($asset)
 	{
 		$params = array(
@@ -131,16 +163,17 @@ class GisDataProvider extends Backend
 
 			$m = $asset->addAssetMesh();
 
-			// export as single colored silhouette
-			$m->setShader($this->getShaderReference('silhouette'));
-			$m->setMeshtype('linestrips');
-			$pos = new Float3('position', $vertices);
-			$m->addChild($pos);
-
-			// TODO: add xflow building extrusion
+			// $this->generateOutline($m, $vertices);
+			// $this->generatePolygon($m, $vertices);
+			$this->generateBlock($m, $vertices);
+			// DEBUG:
+			// break;
 		}
 	}
 	
+	protected function getDataFlowReference($flow) {
+		return $this->getBaseUrl() . '/basic.xml#' . $flow;
+	}
 	
 	protected function getShaderReference($part) {
 		return $this->getBaseUrl() . '/basic.xml#shader_' . $part;

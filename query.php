@@ -44,7 +44,7 @@ $backend->initialize($z, $x, $y);
 
 $data = null;
 
-if ($backend->usecaching($request)) {
+if ($backend->useCaching($request)) {
 	$cache = phpFastCache();
 
 	$keyword = $_SERVER['REQUEST_URI'];

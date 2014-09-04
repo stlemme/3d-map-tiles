@@ -4,7 +4,7 @@
 class XmlElement
 {
 	protected $children = array();
-	protected $attributes;
+	protected $attributes = array();
 	
 	protected function __construct($attributes = array()) {
 		$this->attributes = $attributes;
@@ -111,10 +111,12 @@ class AssetMesh extends XmlElement
 {
 	public function __construct($meshType = null)
 	{
+		parent::__construct(array(
+		));
 		$this->setMeshType($meshType);
 	}
 	
-	public function addData($src) {
+	public function addData($src = null) {
 		return $this->addChild(new Data($src));
 	}
 	
@@ -138,6 +140,8 @@ class AssetMesh extends XmlElement
 class Group extends XmlElement
 {
 	public function __construct($tf = null) {
+		parent::__construct(array(
+		));
 		if ($tf !== null) {
 			$this->attributes['transform'] = $tf;
 		}
@@ -167,10 +171,20 @@ class Group extends XmlElement
 class Data extends XmlElement
 {
 	public function __construct($src = null) {
+		parent::__construct(array(
+		));
 		if ($src !== null)
 			$this->attributes['src'] = $src;
 	}
 	
+	public function compute($operation) {
+		$this->attributes['compute'] = $operation;
+	}
+	
+	public function filter($operation) {
+		$this->attributes['filter'] = $operation;
+	}
+
 	protected function tagName() {
 		return 'data';
 	}
@@ -179,6 +193,8 @@ class Data extends XmlElement
 class Image extends XmlElement
 {
 	public function __construct($src = null) {
+		parent::__construct(array(
+		));
 		if ($src !== null)
 			$this->attributes['src'] = $src;
 	}
@@ -200,11 +216,26 @@ class Float3 extends ArrayDataType
 	}
 }
 
+class Float extends ArrayDataType
+{
+	public function __construct($name, $array) {
+		parent::__construct($name);
+		$this->setArray($array);
+	}
+	
+	protected function tagName() {
+		return 'float';
+	}
+}
+
+
 class TextElement extends XmlElement
 {
 	private $text = '';
 	
 	public function __construct($text = null) {
+		parent::__construct(array(
+		));
 		if ($text !== null)
 			$this->text = $text;
 	}
@@ -225,6 +256,8 @@ class TextElement extends XmlElement
 class ArrayDataType extends XmlElement
 {
 	public function __construct($name) {
+		parent::__construct(array(
+		));
 		if ($name !== null)
 			$this->attributes['name'] = $name;
 	}
@@ -240,6 +273,8 @@ class ArrayDataType extends XmlElement
 class Texture extends XmlElement
 {
 	public function __construct($name) {
+		parent::__construct(array(
+		));
 		if ($name !== null)
 			$this->attributes['name'] = $name;
 	}
@@ -256,6 +291,7 @@ class Texture extends XmlElement
 class Xml3d extends Group
 {
 	public function __construct() {
+		parent::__construct();
 		$this->attributes['xmlns'] = 'http://www.xml3d.org/2009/xml3d';
 	}
 	
