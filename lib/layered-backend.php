@@ -22,7 +22,7 @@ abstract class LayeredBackend extends Backend
 	}
 	
 	public function useCaching($request) {
-		return false; // $request != 'model';
+		return $request != 'model';
 	}
 	
 	public function getModel()

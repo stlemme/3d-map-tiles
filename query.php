@@ -35,6 +35,7 @@ $backend_config = Utils::json_path($config, $provider . '.config');
 
 // var_dump($backend_config);
 
+// TODO: enable client-side caching
 // Utils::set_eTagHeaders(__FILE__, filemtime(__FILE__));
 
 $backend = Backend::load($backend_type, $backend_config);
@@ -67,7 +68,8 @@ if ($data == null) {
 			$result = null;
 	}
 
-	if ($backend->usecaching($request)) {
+	if ($backend->useCaching($request)) {
+		// TODO: use config for cache time
 		$cache->set($keyword, $result, 300);
 	}
 	
@@ -78,6 +80,7 @@ if ($data == null) {
 if ($result !== null) {
 
 	if ($request == 'texture') {
+		// TODO: use config for texture format
 		Response::image($result, "image/png");
 	} else {
 		Response::xml($result);
