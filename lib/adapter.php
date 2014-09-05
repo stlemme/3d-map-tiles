@@ -7,8 +7,11 @@ abstract class Adapter
 	protected $endpoint;
 	protected $x, $y, $z;
 
-	public function __construct($endpoint, $x, $y, $z) {
+	public function __construct($endpoint) {
 		$this->endpoint = $endpoint;
+	}
+	
+	public function initialize($x, $y, $z) {
 		$this->x = $x;
 		$this->y = $y;
 		$this->z = $z;
@@ -18,6 +21,7 @@ abstract class Adapter
 	public abstract function query($layers);
 
 	protected function queryService($params) {
+		// TODO: error handling
 		$url = $this->endpoint . '?' . http_build_query($params);
 		// die($url);
 		

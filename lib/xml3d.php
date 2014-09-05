@@ -216,6 +216,18 @@ class Float3 extends ArrayDataType
 	}
 }
 
+class Float2 extends ArrayDataType
+{
+	public function __construct($name, $array) {
+		parent::__construct($name);
+		$this->setArray($array);
+	}
+	
+	protected function tagName() {
+		return 'float2';
+	}
+}
+
 class Float extends ArrayDataType
 {
 	public function __construct($name, $array) {

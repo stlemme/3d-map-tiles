@@ -43,22 +43,32 @@
 		</float2>
 	</data>
 	
-	<dataflow id="extrude" out="position, normal">
-		<float3 name="contour" param="true" />
+	<dataflow id="dataflow_planeXZ" out="position">
+		<data compute="position = xflow.planeXZ(contour)">
+			<float2 name="contour" param="true" />
+		</data>
+	</dataflow>
+
+	<dataflow id="dataflow_extrude" out="position, normal">
+		<float2 name="contour" param="true" />
 		<float name="height" param="true" />
 		<compute>
-			pos1, index = xflow.extrudePolygon(contour, height);
-			position = xflow.deindex(pos1, index);
+			pos1 = xflow.planeXZ(contour);
+			pos2, index = xflow.extrudePolygon(pos1, height);
+			position = xflow.deindex(pos2, index);
 			normal = xflow.generateFaceNormal(position);
 		</compute>
 	</dataflow>
 
-	<dataflow id="triangulate" out="position, index">
-		<data filter="rename({position: contour})">
-			<data compute="index = xflow.triangulatePolygon(contour)">
-				<float3 name="contour" param="true" />
-			</data>
-		</data>
+	<dataflow id="dataflow_triangulate" out="position, index">
+		<float2 name="contour" param="true" />
+		<float3 name="delta">0 0.1 0</float3>
+		<float name="weight">1</float>
+		<compute>
+			pos = xflow.planeXZ(contour);
+			position = xflow.morph(pos, delta, weight);
+			index = xflow.triangulatePolygon(position);
+		</compute>
 	</dataflow>
 
 </xml3d>
