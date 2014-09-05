@@ -32,6 +32,9 @@ if ($config === null) {
 
 $backend_type = Utils::json_path($config, $provider . '.backend');
 $backend_config = Utils::json_path($config, $provider . '.config');
+if ($backend_type === null) {
+	Response::fail(400, 'Invalid provider!');
+}
 
 // var_dump($backend_config);
 
@@ -39,6 +42,9 @@ $backend_config = Utils::json_path($config, $provider . '.config');
 // Utils::set_eTagHeaders(__FILE__, filemtime(__FILE__));
 
 $backend = Backend::load($backend_type, $backend_config);
+if ($backend === null) {
+	Response::fail(500, 'Unable to load backend "' . $backend_type .'"');
+}
 
 $backend->initialize($z, $x, $y);
 
