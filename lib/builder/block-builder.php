@@ -14,7 +14,7 @@ class BlockBuilder extends GeometryBuilder
 		$this->height = $height;
 	}
 	
-	public function generate($mesh, $vertices)
+	public function generate($mesh, $vertices, $options = array())
 	{
 		// export as extruded triangulated polygon
 		$mesh->setShader($this->shader->getReference('building'));
@@ -22,7 +22,8 @@ class BlockBuilder extends GeometryBuilder
 		$data = $mesh->addData();
 		$data->compute("dataflow['" . $this->dataflow->getReference('extrude') . "']");
 		$data->addChild(new Float2('contour', $vertices));
-		$data->addChild(new Float('height', array($this->height)));
+		$height = ($options['height'] > 0) ? $options['height'] : $this->height;
+		$data->addChild(new Float('height', array($height)));
 	}
 }
 

@@ -7,6 +7,7 @@ require_once(__DIR__ . '/adapter.php');
 abstract class GeometryAdapter extends Adapter
 {
 	protected $meshes = array();
+	protected $heights = array();
 
 	// public function __construct($endpoint) {
 		// parent::__construct($endpoint);
@@ -16,6 +17,11 @@ abstract class GeometryAdapter extends Adapter
 		return $this->meshes;
 	}
 	
+	public function height($idx) {
+		if ($idx >= count($this->heights))
+			return null;
+		return $this->heights[$idx];
+	}
 	
 	protected function projectVertices($vertices) {
 		$c = count($vertices);

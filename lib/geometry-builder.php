@@ -16,7 +16,7 @@ abstract class GeometryBuilder
 		$this->mesh = new MeshResolver($uriResolver);
 	}
 	
-	public abstract function generate($mesh, $vertices);
+	public abstract function generate($mesh, $vertices, $options = array());
 }
 
 

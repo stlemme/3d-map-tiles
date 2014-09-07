@@ -24,16 +24,24 @@ class BuildingLayer extends Layer
 	{
 		$this->adapter->query($this->params);
 		
-		foreach ($this->adapter->meshes() as $vertices)
+		$meshes = $this->adapter->meshes();
+		$n = count($meshes);
+		for ($i = 0; $i < $n; $i++)
 		{
+			$vertices = $meshes[$i];
 			$mesh_bbox = GeometryTools::calcBoundingBox($vertices);
+			// echo $i . '  -  ' . $this->adapter->height($i) . PHP_EOL;
+			$height = $this->adapter->height($i);
 			
 			// cull features with the center outside of the current tile
 			if (abs(0.5 * ($mesh_bbox['minx'] + $mesh_bbox['maxx']) - 0.5) > 0.5) continue;
 			if (abs(0.5 * ($mesh_bbox['miny'] + $mesh_bbox['maxy']) - 0.5) > 0.5) continue;
 
 			$m = $asset->addAssetMesh();
-			$this->builder->generate($m, $vertices);
+			$options = array(
+				'height' => $height
+			);
+			$this->builder->generate($m, $vertices, $options);
 		}
 	}
 }

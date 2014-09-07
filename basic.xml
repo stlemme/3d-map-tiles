@@ -5,13 +5,13 @@
 	
 		<shader id="shader_surface" script="urn:xml3d:shader:diffuse">
 			<float3 name="diffuseColor">1 1 1</float3>
-			<float name="ambientIntensity">0.5686</float>
+			<float name="ambientIntensity">0.3686</float>
 			<float name="transparency">0.0</float>
 		</shader>
 		
 		<shader id="shader_building" script="urn:xml3d:shader:diffuse">
-			<float3 name="diffuseColor">0.8 0.8 0.8</float3>
-			<float name="ambientIntensity">0.3686</float>
+			<float3 name="diffuseColor">0.9 0.9 0.9</float3>
+			<float name="ambientIntensity">0.5686</float>
 			<float name="transparency">0.0</float>
 		</shader>
 		
@@ -53,9 +53,10 @@
 		<float2 name="contour" param="true" />
 		<float name="height" param="true" />
 		<compute>
-			pos1 = xflow.planeXZ(contour);
-			pos2, index = xflow.extrudePolygon(pos1, height);
-			position = xflow.deindex(pos2, index);
+			pos1 = xflow.ensureCCWContour(contour);
+			pos2 = xflow.planeXZ(pos1);
+			pos3, index = xflow.extrudePolygon(pos2, height);
+			position = xflow.deindex(pos3, index);
 			normal = xflow.generateFaceNormal(position);
 		</compute>
 	</dataflow>

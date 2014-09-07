@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../geometry-builder.php');
 
 class OutlineBuilder extends GeometryBuilder
 {
-	public function generate($mesh, $vertices)
+	public function generate($mesh, $vertices, $options = array())
 	{
 		// export as single colored outline
 		$mesh->setShader($this->shader->getReference('silhouette'));
