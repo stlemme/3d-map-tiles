@@ -39,7 +39,7 @@ if ($backend_type === null) {
 // var_dump($backend_config);
 
 // TODO: enable client-side caching
-// Utils::set_eTagHeaders(__FILE__, filemtime(__FILE__));
+Utils::set_eTagHeaders($_SERVER['REQUEST_URI'], filemtime(__FILE__));
 
 $backend = Backend::load($backend_type, $backend_config);
 if ($backend === null) {
@@ -76,7 +76,9 @@ if ($data == null) {
 
 	if ($backend->useCaching($request)) {
 		// TODO: use config for cache time
-		$cache->set($keyword, $result, 300);
+		$cacheTime = Utils::json_path($backend_config, 'cache'); // seconds
+		if ($cacheTime === null) $cacheTime = 300;
+		$cache->set($keyword, $result, $cacheTime);
 	}
 	
 } else {
