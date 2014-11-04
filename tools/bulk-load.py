@@ -5,6 +5,8 @@ from os import makedirs, path, getcwd
 from urllib.parse import urljoin, urldefrag
 import re
 from hashlib import sha1
+from time import sleep
+from random import random
 
 
 class TileLoader(object):
@@ -16,9 +18,12 @@ class TileLoader(object):
 
 	def load_resource(self, url):
 		try:
+			# print('Load url', url, '...', end=' ', flush=True)
 			res = request.urlopen(url)
+			# print('Done.')
 			return res
 		except error.HTTPError as e:
+			# print('Failed!')
 			return None
 	
 	def process_resource_attr(self, url, res, attr, search, replace):
@@ -91,9 +96,18 @@ class TileLoader(object):
 				continue
 
 			res_buffer = self.load_resource(res_url)
+			if res_buffer is None:
+				print('Unable to load resource ', res_url)
+				continue
 
 			if res_url.endswith('.xml'):
-				res_xml = etree.parse(res_buffer)
+				try:
+					res_xml = etree.parse(res_buffer)
+				except etree.XMLSyntaxError:
+					print('Retry ...', end=' ', flush=True)
+					res_data = None
+					res_stack.append(res_url)
+					continue
 				res_extrefs = self.process_resource(res_url, res_xml)
 				res_data = etree.tostring(res_xml, encoding='utf-8')
 				res_stack.extend(res_extrefs)
@@ -142,32 +156,40 @@ class BulkLoader(object):
 		self.endpoint = endpoint
 		self.outdir = path.join(getcwd(), outdir)
 		self.shared = set()
-		self.shared_path = path.join(self.outdir, 'shared')
+		self.shared_path = path.realpath(path.join(self.outdir, 'shared'))
+		self.max_wait = 0.2
 
 	def load_single_tile(self, z, x, y):
-		print('Load tile %d, %d' % (x, y))
-		# coords = (z, x, y)
-		# tile_url = self.endpoint + '/%d/%d/%d.xml' % coords
 		tile = TileLoader(z, x, y, self.shared)
-
 		resources = tile.load(self.endpoint)
 
 		for url, data in resources:
 			res_url = tile.resolve(url)
-			res_path = path.join(self.outdir, str(z), str(x), res_url)
+			res_path = path.realpath(path.join(self.outdir, str(z), str(x), res_url))
+			self.store_resource(res_path, data)
 			if path.dirname(res_path) == self.shared_path:
 				self.shared.add(url)
-			self.store_resource(res_path, data)
 	
 	def load_tile_range(self, zoom, min, max):
-		for x in range(min[0], max[0]+1):
-			for y in range(min[1], max[1]+1):
+		dx = max[0] - min[0] + 1
+		dy = max[1] - min[1] + 1
+		c = float(dx*dy)
+		for xi in range(dx):
+			for yi in range(dy):
+				p = 100.0 * float(xi*dy + yi) / c
+				x = min[0]+xi
+				y = min[1]+yi
+				print('Load tile %d, %d ...' % (x, y), end = ' ', flush=True)
 				self.load_single_tile(zoom, x, y)
+				print('%.2f%%' % p)
+				t = self.max_wait * random()
+				# print("Wait for %f seconds ..." % t)
+				sleep(t)
 
 	def store_resource(self, res_path, res_data):
 		res_dir = path.dirname(res_path)
 		makedirs(res_dir, exist_ok = True)
-		print('Store', res_path)
+		# print('Store', res_path)
 		with open(res_path, 'wb') as fo:
 			fo.write(res_data)
 	
@@ -176,11 +198,15 @@ class BulkLoader(object):
 if __name__ == "__main__":
 	import sys
 	
-	endpoint = 'http://130.206.80.175/api/3d-map-tiles/sb'
-	outdir = 'output'
+	endpoint = 'http://130.206.80.175/api/3d-map-tiles/tum'
+	outdir = 'output/static-tum'
 	
-	zoom = 18
-	bbox = (136189, 89735, 136206, 89746)
+	# campus SB
+	# zoom = 18
+	# bbox = (136189, 89735, 136208, 89748)
+	# campus TUM
+	zoom = 17
+	bbox = (69783, 45415, 69788, 45419)
 	# bbox = (136197, 89741, 136197, 89741)
 	
 	loader = BulkLoader(endpoint, outdir)
