@@ -23,8 +23,7 @@
 
 # secure other git files
 <FilesMatch "(\.git.*)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 
