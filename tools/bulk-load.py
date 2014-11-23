@@ -198,16 +198,23 @@ class BulkLoader(object):
 if __name__ == "__main__":
 	import sys
 	
-	endpoint = 'http://130.206.80.175/api/3d-map-tiles/tum'
-	outdir = 'output/static-tum'
+	endpoint = 'http://localhost/api/3d-map-tiles/tum'
+	outdir = 'output/transmusicales'
 	
 	# campus SB
 	# zoom = 18
 	# bbox = (136189, 89735, 136208, 89748)
 	# campus TUM
-	zoom = 17
-	bbox = (69783, 45415, 69788, 45419)
+	# zoom = 17
+	# bbox = (69783, 45415, 69788, 45419)
 	# bbox = (136197, 89741, 136197, 89741)
+	
+	# transmusicales venue
+	zoom = 18
+	bbox = (129799, 91051, 129819, 91071)
+	
+	# zoom = 17
+	# bbox = (83032, 66165, 83034, 66168)
 	
 	loader = BulkLoader(endpoint, outdir)
 	loader.load_tile_range(zoom, bbox[0:2], bbox[2:4])
