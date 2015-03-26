@@ -7,7 +7,7 @@ require_once(__DIR__ . '/../geometry-adapter.php');
 class OverpassAdapter extends GeometryAdapter
 {
 	protected $format = 'json';
-	protected $nodes;
+	protected $nodes = array();
 	protected $METERS_PER_LEVEL = 3.0;
 
 	public function query($params)
@@ -57,12 +57,16 @@ class OverpassAdapter extends GeometryAdapter
 		
 		$data = $this->queryService($params);
 		// die($data);
+		if($data === null)
+			return;
 		
 		$result = json_decode($data, false, 512, JSON_BIGINT_AS_STRING);
 		// echo count($result->elements);
 		// print_r($result);
 		// die($data);
 		// exit;
+		if ($result === null)
+			return;
 		
 		$this->processNodes($result->elements);
 		$this->processWays($result->elements);
