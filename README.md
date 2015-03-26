@@ -14,7 +14,7 @@ Prerequisites
 Installation
 =====================
 
-- cd {WEB_ROOT}/api/3d-map-tiles
+- cd {WEB_ROOT}/api
 - git clone https://github.com/stlemme/3d-map-tiles.git
 - cd 3d-map-tiles
 - cp config.json.sample config.json
