@@ -38,11 +38,17 @@ abstract class LayeredBackend extends Backend
 	public function getAssetData()
 	{
 		$xml3d = new Xml3d();
+		
 		$defs = $xml3d->addDefs();
 		$tf = $defs->addTransform($this->x . ' 0 ' . $this->y);
 		$tf->setId('tf');
+
+		$all_assets = $xml3d->addAsset("all");
+
 		foreach($this->layers as $name => $layer) {
-			$asset = $xml3d->addAsset($name);
+			$asset = $all_assets->addAsset($name);
+			$asset->setName($name);
+			// $asset = $xml3d->addAsset($name);
 			$layer->generate($asset);
 		}
 		return $xml3d;

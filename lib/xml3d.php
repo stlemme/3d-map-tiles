@@ -101,6 +101,14 @@ class Asset extends XmlElement
 	public function addAssetMesh() {
 		return $this->addChild(new AssetMesh());
 	}
+
+	public function addAsset($id = null) {
+		return $this->addChild(new Asset($id));
+	}
+	
+	public function setName($name) {
+		$this->attributes['name'] = $name;
+	}
 	
 	protected function tagName() {
 		return 'asset';
