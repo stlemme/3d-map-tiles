@@ -20,7 +20,7 @@ $provider = $_GET['provider'];
 $request = $_GET['request'];
 
 $configFile = realpath(__DIR__ . '/config.json');
-if ($configFile === null) {
+if (($configFile === null) || !file_exists($configFile)) {
 	Response::fail(500, 'No configuration file found!');
 }
 
