@@ -1,8 +1,8 @@
 #!/bin/sh
 
-$HOST=$1
-$PORT=$2
-$ENDPOINT=api/3d-map-tiles/filab
+HOST=$1
+PORT=$2
+ENDPOINT=api/3d-map-tiles/filab
 
 echo "Entering FIC2Lab smoke test sequence. Vendor's validation procedure of 3D-Map Tiles SE engaged. Target host: $HOST"
 
