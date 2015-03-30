@@ -1,4 +1,4 @@
-FROM eboraas/apache-php
+FROM ubuntu:latest
 
 RUN uname -a
 
