@@ -1,4 +1,4 @@
-FROM eboraas / apache-php
+FROM eboraas/apache-php
 
 RUN apt-get update && apt-get -y install chef-solo svn
 
