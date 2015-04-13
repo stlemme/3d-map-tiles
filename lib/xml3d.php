@@ -132,6 +132,12 @@ class AssetMesh extends XmlElement
 		$this->attributes['shader'] = $shader;
 	}
 	
+	public function setName($name) {
+		if ($name === null)
+			return;
+		$this->attributes['name'] = $name;
+	}
+
 	protected function tagName() {
 		return 'assetmesh';
 	}
