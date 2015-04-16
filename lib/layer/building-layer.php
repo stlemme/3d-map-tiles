@@ -32,6 +32,7 @@ class BuildingLayer extends Layer
 			$mesh_bbox = GeometryTools::calcBoundingBox($vertices);
 			// echo $i . '  -  ' . $this->adapter->height($i) . PHP_EOL;
 			$height = $this->adapter->height($i);
+			$name = $this->adapter->name($i);
 			
 			// cull features with the center outside of the current tile
 			if (abs(0.5 * ($mesh_bbox['minx'] + $mesh_bbox['maxx']) - 0.5) > 0.5) continue;
@@ -42,6 +43,11 @@ class BuildingLayer extends Layer
 				'height' => $height
 			);
 			$this->builder->generate($m, $vertices, $options);
+			
+			if ($name !== null) {
+				$m->setId($name);
+				$m->setName($name);
+			}
 		}
 	}
 }

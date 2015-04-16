@@ -8,6 +8,7 @@ abstract class GeometryAdapter extends Adapter
 {
 	protected $meshes = array();
 	protected $heights = array();
+	protected $names = array();
 
 	// public function __construct($endpoint) {
 		// parent::__construct($endpoint);
@@ -23,6 +24,12 @@ abstract class GeometryAdapter extends Adapter
 		return $this->heights[$idx];
 	}
 	
+	public function name($idx) {
+		if ($idx >= count($this->names))
+			return null;
+		return $this->names[$idx];
+	}
+
 	protected function projectVertices($vertices) {
 		$c = count($vertices);
 		$r = array();

@@ -9,6 +9,7 @@ class OverpassAdapter extends GeometryAdapter
 	protected $format = 'json';
 	protected $nodes = array();
 	protected $METERS_PER_LEVEL = 3.0;
+	protected $ID_PREFIX = 'osm_way_';
 
 	public function query($params)
 	{
@@ -98,6 +99,7 @@ class OverpassAdapter extends GeometryAdapter
 	{
 		$this->meshes = array();
 		$this->heights = array();
+		$this->names = array();
 		// {
 			// "type" : "way",
 			// "id" : 38436920,
@@ -113,9 +115,11 @@ class OverpassAdapter extends GeometryAdapter
 				
 			$poly2d = $this->extractPolygon2D($w->nodes);
 			$height = isset($w->tags) ? $this->extractHeight($w->tags) : null;
+			$name = $this->ID_PREFIX . $w->id;
 			// print_r($m);
 			$this->meshes[] = $this->projectVertices($poly2d);
 			$this->heights[] = $height;
+			$this->names[] = $name;
 		}
 	}
 	
