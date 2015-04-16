@@ -1,26 +1,30 @@
 FROM ubuntu:latest
 
-RUN uname -a
-
-RUN apt-get update && apt-get -y install chef subversion
+RUN apt-get update
+RUN apt-get -y install chef subversion
 
 
 ENV RECIPE_PATH /var/chef/cookbooks/3DMapTiles
-
-WORKDIR /opt/
-
 
 # currently FIWARE hosts an SVN repo for Chef recipes for GE/SE
 RUN svn export --non-interactive --trust-server-cert  https://forge.fiware.org/scmrepos/svn/testbed/trunk/cookbooks/SESoftware/3DMapTiles/ $RECIPE_PATH  
 
 # write Chef solo install script on the fly
-RUN echo "{ \"run_list\" : \"recipe[3DMapTiles::4.1.3_install]\" }" > $RECIPE_PATH/install.js
-
-RUN pwd
-RUN ls $RECIPE_PATH
+RUN echo '{"run_list" : "recipe[3DMapTiles::4.1.3_install]" }' > $RECIPE_PATH/install.js
 
 # will clone git repo with SE and configure Apache
 RUN chef-solo -j $RECIPE_PATH/install.js
 
 
+ENV APACHE_RUN_USER   www-data
+ENV APACHE_RUN_GROUP  www-data
+ENV APACHE_PID_FILE   /var/run/apache2.pid
+ENV APACHE_RUN_DIR    /var/run/apache2
+ENV APACHE_LOCK_DIR   /var/lock/apache2
+ENV APACHE_LOG_DIR    /var/log/apache2
+
+
 EXPOSE 80 
+
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
+
