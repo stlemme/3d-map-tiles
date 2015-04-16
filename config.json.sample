@@ -1,8 +1,12 @@
 {
-	"filab": {
-		"backend": "osm-texture",
-		"config": {
-			"url": "http://130.206.80.175/api/tiles/filab"
-		}
-	}
+  "osm" : {
+    "backend" : "osm-geometry",
+    "config" : {
+      "endpoint" : "http://overpass-api.de/api/interpreter",
+      "params" : {
+      },
+      "osm-url" : "http://a.tile.openstreetmap.org",
+      "cache" : 300
+    }
+  }
 }
