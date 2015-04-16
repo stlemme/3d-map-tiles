@@ -15,6 +15,9 @@ RUN echo '{"run_list" : "recipe[3DMapTiles::4.1.3_install]" }' > $RECIPE_PATH/in
 # will clone git repo with SE and configure Apache
 RUN chef-solo -j $RECIPE_PATH/install.js
 
+# quieten error logging
+# RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini
+
 
 ENV APACHE_RUN_USER   www-data
 ENV APACHE_RUN_GROUP  www-data
@@ -26,5 +29,5 @@ ENV APACHE_LOG_DIR    /var/log/apache2
 
 EXPOSE 80 
 
-CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
+CMD /usr/sbin/apache2ctl -D FOREGROUND
 
