@@ -145,6 +145,7 @@ class Triangulate{
 				// if i do not change order, normals are 0,-1,0! why is that so?
 				// ensure ccw must be correct or wall-normals would be flipped as well?
 				// if ensure ccw fails, triangulation does not work?
+				// if area fails, triangulation does not work?
 				
 				$result[]= $a;
 				$result[]= $c;
