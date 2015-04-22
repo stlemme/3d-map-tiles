@@ -28,21 +28,11 @@ class BlockBuilder extends GeometryBuilder
 		$index=$ret[1];
 		$position=Triangulate::deindex($pos3,$index);
 		$normal=Triangulate::generateFaceNormal($position);
-		/*	pos1 = xflow.ensureCCWContour(contour);
-			pos2 = xflow.planeXZ(pos1);
-			pos3, index = xflow.extrudePolygon(pos2, height);
-			position = xflow.deindex(pos3, index);
-			normal = xflow.generateFaceNormal(position);
-		*/
-		$data = $mesh->addData();
-		$data->addChild(new Float3('position', $position));
-		$data->addChild(new Float3('normal', $normal));
-		
-		//$data = $mesh->addData();
-		//$data->compute("dataflow['" . $this->dataflow->getReference('extrude') . "']");
-		//$data->addChild(new Float2('contour', $vertices));
-		//$height = ($options['height'] > 0) ? $options['height'] : $this->height;
-		//$data->addChild(new Float('height', array($height)));
+		$ret=array();
+		$ret[]=$position;
+		$ret[]=$normal;
+		return $ret;
+
 	}
 }
 
