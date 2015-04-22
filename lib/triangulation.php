@@ -71,6 +71,7 @@ class Triangulate{
 			return false;
 		}
 	
+		//is it possible to cut out the triangle without any point lying inside of it?
 		for($p=0; $p<$n; $p++){
 			if(($p==$u) || ($p==$v) || ($p==$w)){
 				continue;
@@ -143,9 +144,7 @@ class Triangulate{
 				
 				// why do i have to change order here???
 				// if i do not change order, normals are 0,-1,0! why is that so?
-				// ensure ccw must be correct or wall-normals would be flipped as well?
-				// if ensure ccw fails, triangulation does not work?
-				// if area fails, triangulation does not work?
+
 				
 				$result[]= $a;
 				$result[]= $c;
@@ -155,8 +154,8 @@ class Triangulate{
 				
 				for($s=$v,$t=$v+1; $t<$nv; $s++,$t++){
 					$V[$s]=$V[$t];
-					$nv--;
 				}
+				$nv--;
 				
 				$count=2*$nv;
 			
