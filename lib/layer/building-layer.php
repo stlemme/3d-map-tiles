@@ -29,28 +29,9 @@ class BuildingLayer extends Layer
 		
 		$position=array();
 		$normal=array();
-		
-		$c=0;
-		for ($i = 0; $i < $n; $i++)
-		{
-			$vertices = $meshes[$i];
-			$mesh_bbox = GeometryTools::calcBoundingBox($vertices);
-			// echo $i . '  -  ' . $this->adapter->height($i) . PHP_EOL;
-			$height = $this->adapter->height($i);
-			$name = $this->adapter->name($i);
-			
-			// cull features with the center outside of the current tile
-			if (abs(0.5 * ($mesh_bbox['minx'] + $mesh_bbox['maxx']) - 0.5) > 0.5) continue;
-			if (abs(0.5 * ($mesh_bbox['miny'] + $mesh_bbox['maxy']) - 0.5) > 0.5) continue;
-			$c++;
-		}
-		
-		if($c==0){
-			//no buildings to be generated!
-			return;
-		}
-		
-		$m = $asset->addAssetMesh();
+
+		//$m = $asset->addAssetMesh();
+		$m=new AssetMesh();
 		
 		for ($i = 0; $i < $n; $i++)
 		{
@@ -76,13 +57,18 @@ class BuildingLayer extends Layer
 
 		}
 		
-		
+		if(count($position)>0){ //todo: test if < max triangles
 		
 		$data = $m->addData();
 		$data->addChild(new Float3('position', $position));
 		$data->addChild(new Float3('normal', $normal));
 		
+		$m->setShader($this->builder->shader->getReference('building'));
+		$m->setMeshtype('triangles');
 		
+		$asset->addChild($m);
+		
+		}
 	}
 }
 

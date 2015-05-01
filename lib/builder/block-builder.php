@@ -18,8 +18,8 @@ class BlockBuilder extends GeometryBuilder
 	public function generate($mesh, $vertices, $options = array())
 	{
 		// export as extruded triangulated polygon
-		$mesh->setShader($this->shader->getReference('building'));
-		$mesh->setMeshtype('triangles');
+		//$mesh->setShader($this->shader->getReference('building'));
+		//$mesh->setMeshtype('triangles');
 		$height = ($options['height'] > 0) ? $options['height'] : $this->height;
 		$pos1 = Triangulate::ensureCCWContour($vertices);
 		$pos2 = Triangulate::planeXZ($pos1);
