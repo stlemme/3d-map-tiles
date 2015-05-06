@@ -59,6 +59,11 @@ class BuildingLayer extends Layer
 		
 		if(count($position)>0){ //todo: test if < max triangles
 		
+		if(count($position)>65536*3){
+			echo "error: too many vertices";
+			return;
+		}
+		
 		$data = $m->addData();
 		$data->addChild(new Float3('position', $position));
 		$data->addChild(new Float3('normal', $normal));

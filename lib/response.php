@@ -41,7 +41,8 @@ class Response
 	public static function image($data, $format)
 	{
 		header("Content-type: " . $format);
-		echo $data;
+		imagepng($data);
+		//echo $data;
 	}
 	
 }

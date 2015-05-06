@@ -33,18 +33,27 @@ class ExternalPlaneLayer extends PlaneLayer
 {
 	protected $url;
 	
-	public function __construct($url) {
+	public function __construct($url,$local=false) {
 		$this->url = $url;
+		$this->local = $local;
 	}
 
 	protected function getTextureReference($texname) {
 		$tex = new Texture($texname);
 		// TODO: use map replace
-		$src = $this->url . '/' . $this->z . '/' . $this->x . '/' . $this->y . '.png';
+		if($this->local){
+			$src = $this->url . '/' . $this->z . '/' . $this->x . '/' . $this->y . '-texture.png';
+		}
+		else{
+			$src = $this->url . '/' . $this->z . '/' . $this->x . '/' . $this->y . '.png';
+		}
 		$tex->addImage($src);
 		return $tex;
 	}
 }
+
+
+
 
 
 ?>
