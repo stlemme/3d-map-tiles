@@ -93,31 +93,7 @@ class OsmGeometry extends LayeredBackend
 		imagedestroy($im);
 		
 		return $image_data;
-		
-		
-		
-		
-		
 		}
-		//handle texture here
-		/*
-		$im = @ImageCreate (512, 512);
-		$im00 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2) . '/' . ($this->y*2) . '.png');
-		$im01 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2) . '/' . ($this->y*2+1) . '.png');
-		$im10 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2+1) . '/' . ($this->y*2) . '.png');
-		$im11 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2+1) . '/' . ($this->y*2+1) . '.png');
-		imagecopy($im, $im00, 0, 0, 0, 0, 256, 256);
-		imagecopy($im, $im01, 0, 256, 0, 0, 256, 256); 
-		imagecopy($im, $im10, 256, 0, 0, 0, 256, 256); 
-		imagecopy($im, $im11, 256, 256, 0, 0, 256, 256); 		
-
-		ob_start();
-		imagepng($im);
-		$image_data = ob_get_contents();
-		ob_end_clean();
-		
-		return $image_data;
-		*/
 	}
 
 	
