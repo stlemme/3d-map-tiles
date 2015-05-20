@@ -33,7 +33,74 @@ class OsmGeometry extends LayeredBackend
 	}
 	
 	public function getTexture() {
+		$delta=$this->config('texture-lod-delta');
+		$res=$this->config('texture-resolution');
+		
+		if($delta==0){
+		
+		$im=@ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z) . '/' . ($this->x) . '/' . ($this->y) . '.png');
+		
+		ob_start();
+		imagepng($im);
+		$image_data = ob_get_contents();
+		ob_end_clean();
+		
+		imagedestroy($im);
+		
+		return $image_data;
+		}
+		
+		else if($delta>0){
+		$count=pow(2,$delta);
+		$im = @ImageCreate ($count*$res, $count*$res);
+		
+		for($x=0;$x<$count;$x++){
+				for($y=0;$y<$count;$y++){
+				$tile = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+$delta) . '/' . ($this->x*$count+$x) . '/' . ($this->y*$count+$y) . '.png');
+				imagecopy($im, $tile, $x*$res, $y*$res, 0, 0, $res, $res);
+				imagedestroy($tile);
+				}
+			}
+		
+		ob_start();
+		imagepng($im);
+		$image_data = ob_get_contents();
+		ob_end_clean();
+		
+		imagedestroy($im);
+		
+		return $image_data;
+		
+		}
+		else{
+		$count=pow(2,-$delta);
+		$im_res=$res/$count;
+		$im = @ImageCreate ($im_res,$im_res);
+		
+		$x=floor($this->x/$count);
+		$y=floor($this->y/$count);
+		$x_tile=$this->x-$x*$count;
+		$y_tile=$this->y-$y*$count;
+		$tile = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+$delta) . '/' . ($x) . '/' . ($y) . '.png');
+		imagecopy($im, $tile, 0, 0, $x_tile*$im_res, $y_tile*$im_res, $im_res, $im_res);
+		imagedestroy($tile);
+		
+		ob_start();
+		imagepng($im);
+		$image_data = ob_get_contents();
+		ob_end_clean();
+		
+		imagedestroy($im);
+		
+		return $image_data;
+		
+		
+		
+		
+		
+		}
 		//handle texture here
+		/*
 		$im = @ImageCreate (512, 512);
 		$im00 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2) . '/' . ($this->y*2) . '.png');
 		$im01 = @ImageCreateFromPNG ($this->config('osm-url'). '/' . ($this->z+1) . '/' . ($this->x*2) . '/' . ($this->y*2+1) . '.png');
@@ -43,7 +110,14 @@ class OsmGeometry extends LayeredBackend
 		imagecopy($im, $im01, 0, 256, 0, 0, 256, 256); 
 		imagecopy($im, $im10, 256, 0, 0, 0, 256, 256); 
 		imagecopy($im, $im11, 256, 256, 0, 0, 256, 256); 		
-		return $im;
+
+		ob_start();
+		imagepng($im);
+		$image_data = ob_get_contents();
+		ob_end_clean();
+		
+		return $image_data;
+		*/
 	}
 
 	
@@ -52,10 +126,7 @@ class OsmGeometry extends LayeredBackend
 	
 	protected function getGround()
 	{
-		//change url here
-		//todo: use path from config
-		return new ExternalPlaneLayer('http://127.0.0.1/api/3d-map-tiles/sb',true);
-		//return new ExternalPlaneLayer($this->config('osm-url'));
+		return new PlaneLayer();
 	}
 	
 	protected function getBuildings()
