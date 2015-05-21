@@ -9,9 +9,10 @@ require_once(__DIR__ . '/../geometry-tools.php');
 
 class TerrainLayer extends Layer
 {
-	public function __construct($adapter)
+	public function __construct($adapter,$params)
 	{
 		$this->adapter = $adapter;
+		$this->params = $params;
 		//$this->adapter->query();
 	}
 
@@ -47,6 +48,7 @@ class TerrainLayer extends Layer
 		$builder->generate($mesh, null);
 		$mesh->addChild($this->getTextureReference($this->diffuse));
 		*/
+	$this->adapter->query($this->params);
 	$shader = new ShaderResolver($this->uriResolver);
 	$dataflow = new DataFlowResolver($this->uriResolver);
 		

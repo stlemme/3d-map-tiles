@@ -16,14 +16,15 @@ class GisDataProviderTerrain extends LayeredBackend
 {
 	protected $buildings;
 	protected $surface;
-	
+	protected $terrain;
 	
 	
 	public function initialize($z, $x, $y) {
 		parent::initialize($z, $x, $y);
 		
 		//$this->buildings->initialize($x, $y, $z);
-		
+		$this->terrain->initialize($x, $y, $z);
+
 		$this->surface = new WMSAdapter($this->config('wms.endpoint'));
 		$this->surface->initialize($x, $y, $z);
 	}
@@ -53,12 +54,14 @@ class GisDataProviderTerrain extends LayeredBackend
 	
 	protected function getGround()
 	{
-		$adapter = new TerrainAdapter($this->config('terrain.endpoint'));
+		$this->terrain = new TerrainAdapter($this->config('terrain.endpoint'));
+		
+		
 		$params = array(
 			'layers'  => $this->config('terrain.params.layers'),
 		);
-		$adapter->query($params);
-		return new TerrainLayer($adapter);
+		//must intialize and querry in terrain layer!
+		return new TerrainLayer($this->terrain,$params);
 	}
 	
 	protected function getBuildings()

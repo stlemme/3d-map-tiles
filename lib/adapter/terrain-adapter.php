@@ -40,6 +40,7 @@ class TerrainAdapter extends Adapter
 			//'bbox' => implode($bbox, ','),
 			'boundingbox' => implode($bbox, ','),
 			'srs' => $this->srs,
+			'crs' => $this->srs,
 			'format' => $this->format,
 
 			//'width' => $this->tile_size,
@@ -50,7 +51,7 @@ class TerrainAdapter extends Adapter
 		
 		$this->terrain = $this->queryService($params);
 		
-		$list = array_merge(unpack("l/l/f*", $this->terrain));
+		$list = array_merge(unpack("l/l/N*", $this->terrain));
 		$this->size=bindec ($list[0]);
 		//$this->sizey=$list[1];
 		$this->data=array_slice($list, 4);
