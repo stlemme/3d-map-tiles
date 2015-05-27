@@ -21,12 +21,6 @@ Installation
 - vim config.json
 - adapt line "RewriteBase /api/3d-map-tiles" in .htaccess if necessary
 
-Usage
-=====================
-
-- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0.xml
-- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0-asset.xml
-
 Configuration
 =====================
  - update config.json accordingly to utilize different backends
@@ -102,3 +96,9 @@ Configuration
   }
 }
 ```
+
+Usage
+=====================
+
+- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0.xml
+- http://HOST/api/3d-map-tiles/NAME-IN-CONFIG/0/0/0-asset.xml
