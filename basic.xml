@@ -68,7 +68,7 @@
 	</dataflow>
 	
 	<dataflow id="dataflow_vertexNormal" out="normal">
-		<script name="xflow.vertexNormal" src="operators/myxflow.js" type="text/javascript"></script>
+		<!--<script name="xflow.vertexNormal" src="operators/myxflow.js" type="text/javascript"></script>-->
 		<float3 name="position" param="true" />
 		<int3 name="index" param="true" />
 		<compute>
@@ -77,7 +77,7 @@
 	</dataflow>
 	
 	<dataflow id="dataflow_mygrid" out="position,normal,texcoord,index">
-		<script name="xflow.mygrid" src="operators/myxflow.js" type="text/javascript"></script>
+		<!--<script name="xflow.mygrid" src="operators/myxflow.js" type="text/javascript"></script>-->
 		<int name="size" param="true" />
 		<compute>
 			position,normal,texcoord,index = xflow.mygrid(size);

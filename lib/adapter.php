@@ -23,7 +23,7 @@ abstract class Adapter
 	protected function queryService($params) {
 		// TODO: error handling
 		$url = $this->endpoint . '?' . http_build_query($params);
-		// die($url);
+		//die($url);
 		
 		$data = file_get_contents($url);
 		// die($data);
