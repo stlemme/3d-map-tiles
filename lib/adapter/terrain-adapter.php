@@ -49,17 +49,19 @@ class TerrainAdapter extends Adapter
 			//'transparent' => $params['transparent']
 		);
 		
-		$this->terrain = $this->queryService($params);
+		// $this->terrain = $this->queryService($params);
 		
-		$list = array_merge(unpack("l/l/N*", $this->terrain));
-		$this->size=bindec ($list[0]);
+		// $list = array_merge(unpack("l/l/N*", $this->terrain));
+		// $this->size=bindec ($list[0]);
 		//$this->sizey=$list[1];
-		$this->data=array_slice($list, 4);
+		// $this->data=array_slice($list, 4);
 		// TODO: enhance image handling, e.g. filters, error handling, stitching, etc.
+		$this->size = 2;
+		$this->data = array(0.0, 0.0, 0.0, 0.0);
 	}
 	
 	public function size() {
-		return [$this->size];
+		return [$this->size, $this->size];
 	}
 	
 	

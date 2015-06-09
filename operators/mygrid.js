@@ -1,5 +1,5 @@
 
-XML3D.options.setValue("renderer-faceculling", "back");
+// XML3D.options.setValue("renderer-faceculling", "back");
 
 
 

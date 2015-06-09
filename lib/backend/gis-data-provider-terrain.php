@@ -54,14 +54,14 @@ class GisDataProviderTerrain extends LayeredBackend
 	
 	protected function getGround()
 	{
-		$this->terrain = new TerrainAdapter($this->config('terrain.endpoint'));
+		$this->terrain = new TerrainAdapter($this->config('w3ds.endpoint'));
 		
 		
 		$params = array(
-			'layers'  => $this->config('terrain.params.layers'),
+			'layers'  => $this->config('w3ds.params.layers'),
 		);
-		//must intialize and querry in terrain layer!
-		return new TerrainLayer($this->terrain,$params);
+		//must intialize and query in terrain layer!
+		return new TerrainLayer($this->terrain, $params);
 	}
 	
 	protected function getBuildings()
