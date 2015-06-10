@@ -57,6 +57,12 @@ class TerrainLayer extends Layer
 	$mesh->setMeshtype('triangles');
 	$data1= $mesh->addData();
 	$data1->compute("dataflow['" . $dataflow->getReference('vertexNormal') . "']");
+	
+	$texture= new Texture('diffuseTexture');
+	$tex_src = $this->y . '-texture.png';
+	$texture->addImage($tex_src);
+	$mesh->addChild($texture);
+	
 	$data2=$data1->addData();
 	$data2->compute("position = xflow.morph(position, scale, elevation)");
 	$data2->addChild(new Float3('scale', [0,0.0015,0]));
