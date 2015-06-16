@@ -1,0 +1,81 @@
+﻿<html>
+
+<head>
+    <title>3D-Map Tiles Demo</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="styles.css"/>
+
+    <script type="text/javascript" src="http://xml3d.org/xml3d/script/xml3d.js"></script>
+    <script type="text/javascript" src="http://xml3d.org/xml3d/script/tools/camera.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+    <div id="title">3D-Map Tiles Demo</div>
+    <div id="container">
+    
+    <div class="heading">Endpoint at <a>/api/3d-map-tiles/</a></div>
+    <div class="heading">Preview</div>
+    <div id="myxml3dcontainer">
+        <xml3d id="myxml3d" class="myxml3dcanvas" activeView="#myiew">
+
+  <group style="transform: scale3d(20, 0.1, 20) translate3d(-0.5, 0, -0.5);">
+
+    <!-- Places in Hamburg - data requested from the 3D-Map Tiles SE -->
+    <model src="/api/3d-map-tiles/osm/17/69176/42362-asset.xml#all" id="tile"></model>
+            
+  </group>
+
+  <!-- View -->
+  <view id="myiew" position="9.32 11.63 20.07" orientation="-0.77 0.63 0.04 0.64"></view>
+
+  <!-- Light -->
+  <lightshader id="light1" script="urn:xml3d:lightshader:directional">
+    <float3 name="intensity">0.9 0.9 0.9</float3>
+  </lightshader>
+
+  <group style="transform: rotateX(-60deg)" >
+    <light shader="#light1"></light>
+  </group>
+
+        </xml3d>
+        <div id="logo"><img id="logoimg" src="http://xml3d.org/wp-content/ata-images/logo.png" class="animated"/></div>
+        <div id="attribution" class="attribution">
+            Data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors
+        </div>
+    </div>
+    <div class="heading">Source Code of Scene</div>
+    <div id="myscenecode"></div>
+    <div class="heading">Configuration of running instance</div>
+    <div id="configurl">
+        Config file: <a>/api/3d-map-tiles/config.json</a>
+    </div>
+    <div id="configviewer"></div>
+    
+    </div>
+	
+    <script type="text/javascript">
+		$(window).on('load', function () {
+			
+			$('a:not([href])').attr('href', function() { return $(this).text(); });
+			
+			(function load_animation() {
+				$( 'img.animated' )
+					.animate({opacity: 0.8}, 750)
+					.animate({opacity: 0.2}, 750, 'swing', load_animation);
+			})();
+			
+			$('#tile').on('load', function() {
+				$('#logoimg')
+					.removeClass('animated')
+					.stop(true, false)
+					.animate({opacity: 1}, 250);
+			});
+			
+			$('#myscenecode').text($('#myxml3d').html());
+			$('#configviewer').load($('#configurl a').attr('href'));
+		});
+	</script>
+</body>
+
+</html>
