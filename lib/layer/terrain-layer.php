@@ -53,7 +53,8 @@ class TerrainLayer extends Layer
 	$dataflow = new DataFlowResolver($this->uriResolver);
 		
 	$mesh = $asset->addAssetMesh();
-	$mesh->setShader($shader->getReference('building'));
+	$mesh->setShader($shader->getReference('terrain'));
+	//$mesh->setShader($shader->getReference('building'));
 	$mesh->setMeshtype('triangles');
 	$data1= $mesh->addData();
 	$data1->compute("dataflow['" . $dataflow->getReference('vertexNormal') . "']");
@@ -65,7 +66,7 @@ class TerrainLayer extends Layer
 	
 	$data2=$data1->addData();
 	$data2->compute("position = xflow.morph(position, scale, elevation)");
-	$data2->addChild(new Float3('scale', [0,0.0015,0]));
+	$data2->addChild(new Float3('scale', [0,1,0]));
 	$data3=$data2->addData();
 	$data3->compute("dataflow['" . $dataflow->getReference('mygrid') . "']");
 	$data3->addChild(new Int('size', $this->adapter->size()));

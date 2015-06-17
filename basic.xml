@@ -15,6 +15,12 @@
 			<float name="transparency">0.0</float>
 		</shader>
 		
+		<shader id="shader_terrain" script="urn:xml3d:shader:diffuse">
+			<float3 name="diffuseColor">0.5 0.5 0.5</float3>
+			<float name="ambientIntensity">0.5686</float>
+			<float name="transparency">0.0</float>
+		</shader>
+		
 		<shader id="shader_silhouette" script="urn:xml3d:shader:matte">
 			<float3 name="diffuseColor">1 0.5 0</float3>
 		</shader>
