@@ -91,7 +91,7 @@ class TerrainAdapter extends Adapter
 				
 				$num = $perlingenerator->noise($x_tex,$y_tex,$z_tex,30);
 				$raw = $num*5000;
-				$this->data[count($this->data)]=$raw;
+				$this->data[]=$raw;
 			}
 		}
 	}
