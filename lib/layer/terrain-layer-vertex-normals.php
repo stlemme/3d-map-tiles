@@ -56,16 +56,17 @@ class TerrainLayer extends Layer
 	$mesh->setShader($shader->getReference('terrain'));
 	//$mesh->setShader($shader->getReference('building'));
 	$mesh->setMeshtype('triangles');
-	//$data1= $mesh->addData();
-	//$data1->compute("dataflow['" . $dataflow->getReference('vertexNormal') . "']");
+	$data1= $mesh->addData();
+	$data1->compute("dataflow['" . $dataflow->getReference('vertexNormal') . "']");
 	
+	/*
 	$texture= new Texture('diffuseTexture');
 	$tex_src = $this->y . '-texture.png';
 	$texture->addImage($tex_src);
 	$mesh->addChild($texture);
+	*/
 	
-	//$data2=$data1->addData();
-	$data2=$mesh->addData();
+	$data2=$data1->addData();
 	$data2->compute("position = xflow.morph(position, scale, elevation)");
 	$data2->addChild(new Float3('scale', [0,1,0]));
 	$data3=$data2->addData();
