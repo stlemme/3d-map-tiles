@@ -1,0 +1,188 @@
+{
+  "filab" : {
+    "backend" : "osm-texture",
+    "config" : {
+      "url" : "http://130.206.80.175/api/tiles/filab"
+    }
+  },
+
+  "osm" : {
+    "backend" : "osm-texture",
+    "config" : {
+      "url" : "http://a.tile.openstreetmap.org"
+    }
+  },
+
+  "oulu" : {
+    "backend" : "gis-data-provider",
+    "config" : {
+      "wms" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/wms",
+        "params" : {
+          "layers" : "fiware:terrain_texture_orto",
+          "styles" : "",
+          "bgcolor" : "0xFF8000",
+          "transparent" : false
+        }
+      },
+      "w3ds" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/w3ds",
+        "params" : {
+          "layers" : "fiware:postgis_oulu_terrain"
+        }
+      },
+      "wfs" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/ows",
+        "params" : {
+          "layers" : "fiware:building_polygons"
+        }
+      },
+      "cache" : 36000
+    }
+  },
+  
+  "oulu-terrain" : {
+    "backend" : "gis-data-provider-terrain",
+    "config" : {
+      "wms" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/wms",
+        "params" : {
+          "layers" : "fiware:terrain_texture_orto",
+          "styles" : "",
+          "bgcolor" : "0xFF8000",
+          "transparent" : false
+        }
+      },
+      "w3ds" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/w3ds",
+        "params" : {
+          "layers" : "fiware:postgis_oulu_terrain"
+        }
+      },
+	  "terrain" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/w3ds",
+        "params" : {
+          "layers" : "fiware:postgis_oulu_terrain"
+        }
+      },
+      "wfs" : {
+        "endpoint" : "http://130.206.80.182:8080/geoserver/fiware/ows",
+        "params" : {
+          "layers" : "fiware:building_polygons"
+        }
+      },
+      "cache" : 60
+    }
+  },
+  
+  "terrain" : {
+    "backend" : "gis-data-provider-terrain",
+    "config" : {
+      "wms" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/wms",
+        "params" : {
+          "layers" : "fiware:terrain_texture_orto",
+          "styles" : "",
+          "bgcolor" : "0xFF8000",
+          "transparent" : false
+        }
+      },
+      "w3ds" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/w3ds",
+        "params" : {
+          "layers" : "fiware:terrain",
+		  "lod": 5,
+		  "normalmap-lod": 8
+        }
+      },
+      "wfs" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/ows",
+        "params" : {
+          "layers" : "fiware:building_polygons"
+        }
+      },
+      "cache" : 36000
+    }
+  },
+  
+    "terrain-vertex-normals" : {
+    "backend" : "gis-data-provider-terrain-vertex-normals",
+    "config" : {
+      "wms" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/wms",
+        "params" : {
+          "layers" : "fiware:terrain_texture_orto",
+          "styles" : "",
+          "bgcolor" : "0xFF8000",
+          "transparent" : false
+        }
+      },
+      "w3ds" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/w3ds",
+        "params" : {
+          "layers" : "fiware:terrain",
+		  "lod": 5,
+		  "normalmap-lod": 8
+        }
+      },
+      "wfs" : {
+        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/ows",
+        "params" : {
+          "layers" : "fiware:building_polygons"
+        }
+      },
+      "cache" : 3600
+    }
+  },
+  
+  
+
+  "sb" : {
+    "backend" : "osm-geometry",
+    "config" : {
+      "endpoint" : "http://overpass-api.de/api/interpreter",
+      "params" : {
+      },
+      "osm-url" : "http://a.tile.openstreetmap.org",
+	  "cache" : 14400,
+	  "texture-lod-delta" : 1,
+	  "texture-resolution" : 256
+    }
+  },
+  
+    "sbx" : {
+    "backend" : "osm-geometry",
+    "config" : {
+      "endpoint" : "http://overpass-api.de/api/interpreter",
+      "params" : {
+      },
+      "osm-url" : "http://a.tile.openstreetmap.org",
+	  "cache" : 14400,
+	  "texture-lod-delta" : 0,
+	  "texture-resolution" : 256
+    }
+  },
+
+  "tum" : {
+    "backend" : "osm-geometry",
+    "config" : {
+      "endpoint" : "http://overpass-api.de/api/interpreter",
+      "params" : {
+      },
+      "osm-url" : "http://130.206.80.175/api/tiles/filab",
+      "cache" : 3600
+    }
+  },
+
+  "bcn" : {
+    "backend" : "osm-geometry",
+    "config" : {
+      "endpoint" : "http://overpass-api.de/api/interpreter",
+      "params" : { },
+      "osm-url" : "http://130.206.80.175/api/tiles/osm",
+      "cache" : 3600
+    }
+  }
+
+}
+
