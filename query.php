@@ -50,8 +50,9 @@ $backend->initialize($z, $x, $y);
 
 
 $data = null;
+$caching = $backend->caching($request);
 
-if ($backend->useCaching($request)) {
+if ($caching > 0) {
 	$cache = phpFastCache();
 
 	$keyword = $_SERVER['REQUEST_URI'];
@@ -68,18 +69,16 @@ if ($data == null) {
 			$result = $backend->getAssetData();
 			break;
 		case 'texture':
-			$result = $backend->getTexture();
+			$image = isset($_GET['image']) ? $_GET['image'] : '';
+			$format = isset($_GET['format']) ? $_GET['format'] : 'png';
+			$result = $backend->getTexture($image, $format);
 			break;
 		default:
 			$result = null;
 	}
 
-	if ($backend->useCaching($request)) {
-		// TODO: use config for cache time
-		$cacheTime = Utils::json_path($backend_config, 'cache'); // seconds
-		if ($cacheTime === null) $cacheTime = 300;
-		$cache->set($keyword, $result, $cacheTime);
-	}
+	if ($caching > 0)
+		$cache->set($keyword, $result, $caching);
 	
 } else {
 	$result = $data;
@@ -88,8 +87,7 @@ if ($data == null) {
 if ($result !== null) {
 
 	if ($request == 'texture') {
-		// TODO: use config for texture format
-		Response::image($result, "image/png");
+		Response::image($result, $format);
 	} else {
 		Response::xml($result);
 	}

@@ -15,10 +15,6 @@ class OsmGeometry extends LayeredBackend
 	protected $overpass;
 	
 	
-	public function useCaching($request) {
-		return $request != 'model';
-	}
-	
 	public function initialize($z, $x, $y) {
 		parent::initialize($z, $x, $y);
 		

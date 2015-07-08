@@ -21,8 +21,8 @@ abstract class LayeredBackend extends Backend
 		}
 	}
 	
-	public function useCaching($request) {
-		return $request != 'model';
+	public function caching($request) {
+		return $request != 'model' ? parent::caching($request) : 0;
 	}
 	
 	public function getModel()

@@ -59,7 +59,7 @@ class OverpassAdapter extends GeometryAdapter
 		$data = $this->queryService($params);
 		// die($data);
 		if($data === null)
-			return;
+			return false;
 		
 		$result = json_decode($data, false, 512, JSON_BIGINT_AS_STRING);
 		// echo count($result->elements);
@@ -67,10 +67,11 @@ class OverpassAdapter extends GeometryAdapter
 		// die($data);
 		// exit;
 		if ($result === null)
-			return;
+			return false;
 		
 		$this->processNodes($result->elements);
 		$this->processWays($result->elements);
+		return true;
 	}
 	
 	

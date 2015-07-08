@@ -7,8 +7,6 @@ require_once(__DIR__ . '/../adapter.php');
 class WMSAdapter extends Adapter
 {
 	protected $texture = null;
-	protected $format = 'image/png';
-	protected $tile_size = 256;
 
 	public function query($params)
 	{
@@ -24,17 +22,26 @@ class WMSAdapter extends Adapter
 			
 			'bbox' => implode($bbox, ','),
 			'srs' => $this->srs,
-			'format' => $this->format,
+			'format' => $params['format'],
 
-			'width' => $this->tile_size,
-			'height' => $this->tile_size,
+			'width' => $params['tile_size'],
+			'height' => $params['tile_size'],
 			'bgcolor' => $params['bgcolor'],
 			'transparent' => $params['transparent']
 		);
-		
-		$this->texture = $this->queryService($params);
-		
+
 		// TODO: enhance image handling, e.g. filters, error handling, stitching, etc.
+		
+		$result = $this->queryService($params);
+		if ($result === null)
+			return false;
+		
+		$img = @imagecreatefromstring($result);
+		if ($img === false)
+			return false;
+		
+		$this->texture = $img;
+		return true;
 	}
 	
 	public function texture() {

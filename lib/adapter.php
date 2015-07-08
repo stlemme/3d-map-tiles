@@ -27,27 +27,18 @@ abstract class Adapter
 	
 	public abstract function query($layers);
 
-	private function fget_contents() {
-		$args = func_get_args();
-		// the @ can be removed if you lower error_reporting level
-		$contents = @call_user_func_array('file_get_contents', $args);
-
-		if ($contents === false) {
-			throw new Exception('Failed to open ' . $file);
-		} else {
-			return $contents;
-		}
-	}
 
 	protected function queryService($params, $forceRequest = false) {
-		// TODO: error handling
 		$url = $this->endpoint . '?' . http_build_query($params);
 		// die($url);
 
 		$data = $this->cache->get($url);
 
-		if ($data == null || $forceRequest) {
-			$data = file_get_contents($url);
+		if ($data === null || $forceRequest) {
+			$data = @file_get_contents($url);
+			if ($data === false)
+				return null;
+			
 			$this->cache->set($url, $data, $this->CACHE_TIME);
 		}
 		// die($data);
