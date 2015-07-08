@@ -7,7 +7,6 @@ require_once(__DIR__ . '/../uri-resolver.php');
 require_once(__DIR__ . '/../adapter/wfs-adapter.php');
 require_once(__DIR__ . '/../adapter/wms-adapter.php');
 require_once(__DIR__ . '/../adapter/procedural-terain-adapter.php');
-//require_once(__DIR__ . '/../adapter/terrain-adapter.php');
 require_once(__DIR__ . '/../builder/block-builder.php');
 require_once(__DIR__ . '/../layer/building-layer.php');
 require_once(__DIR__ . '/../layer/terrain-layer-vertex-normals.php');
@@ -23,12 +22,8 @@ class GisDataProviderTerrainVertexNormals extends LayeredBackend
 	public function initialize($z, $x, $y) {
 		parent::initialize($z, $x, $y);
 		
-		//$this->buildings->initialize($x, $y, $z);
 		$this->terrain->initialize($x, $y, $z);
-		/*
-		$this->surface = new WMSAdapter($this->config('wms.endpoint'));
-		$this->surface->initialize($x, $y, $z);
-		*/
+
 		$this->surface = new ProceduralTerrainAdapter($this->config('w3ds.endpoint'));
 		$this->surface->initialize($x, $y, $z);
 		
@@ -36,23 +31,12 @@ class GisDataProviderTerrainVertexNormals extends LayeredBackend
 	
 	protected function getLayers() {
 		return array(
-			'plane' => $this->getGround(),
-			//'buildings' => $this->getBuildings()				
+			'plane' => $this->getGround(),			
 		);
 	}
 		
 	public function getTexture() {
-		/*
-		$params = array(
-			'layers'  => $this->config('wms.params.layers'),
-			'styles' => $this->config('wms.params.styles'),
-			'bgcolor' => $this->config('wms.params.bgcolor'),
-			'transparent' => ($this->config('wms.params.transparent') ? 'true' : 'false')
-		);
 		
-		$this->surface->query($params);
-		return $this->surface->texture();
-		*/
 		$lod=$this->config('w3ds.params.normalmap-lod');
 		if($lod==null){
 			$lod=8;
