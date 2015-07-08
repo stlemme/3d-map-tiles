@@ -1,0 +1,81 @@
+
+html, body {
+    position: relative;
+	display: block;
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+}
+
+div#container, div#title {
+    position: relative;
+	display: block;
+	width: 640px;
+	margin: 30px auto;
+	padding: 20px 80px;
+}
+
+div#container {
+	background-color: eeeeee;
+
+}
+
+div#title {
+	font-size: 45px;
+	font-weight: bold;
+	letter-spacing: 7px;
+	text-align: center;
+}
+
+div.heading {
+	font-size: 36px;
+	margin-bottom: 25px;
+	margin-top: 30px;
+	text-align: left;
+	text-decoration: none;
+	font-style: italic;
+}
+
+div#myxml3dcontainer, .myxml3dcanvas, div#myscenecode, div#configviewer {
+    position: relative;
+	background-color: white;
+	width: 640px;
+	display: block;
+	margin: 10px auto;
+}
+
+div#myxml3dcontainer, .myxml3dcanvas {
+	height: 480px;
+}
+
+div#configviewer, div#myscenecode {
+	font-family: monospace;
+    white-space: pre-wrap;
+}
+
+div#logo {
+    position: absolute;
+	top: 0px;
+	display: block;
+	width: 245px;
+	height: 106px;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+
+div.olControlAttribution, div.attribution {
+	display: block;
+	position: absolute;
+	background: rgba(255, 255, 255, 0.6);
+	bottom: 0px;
+	right: 0px;
+	border-top-left-radius: 4px;
+	padding: 2px 4px;
+	color: black;
+	font-size: smaller;
+}
+
+div.attribution a {
+	color: inherit;
+}
