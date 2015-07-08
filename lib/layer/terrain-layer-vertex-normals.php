@@ -7,7 +7,7 @@ require_once(__DIR__ . '/../xml3d.php');
 require_once(__DIR__ . '/../geometry-tools.php');
 
 
-class TerrainLayer extends Layer
+class TerrainLayerVertexNomals extends Layer
 {
 	public function __construct($adapter,$params)
 	{

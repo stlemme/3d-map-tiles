@@ -29,7 +29,7 @@ class GisDataProviderTerrainVertexNormals extends LayeredBackend
 		$this->surface = new WMSAdapter($this->config('wms.endpoint'));
 		$this->surface->initialize($x, $y, $z);
 		*/
-		$this->surface = new TerrainAdapter($this->config('w3ds.endpoint'));
+		$this->surface = new ProceduralTerrainAdapter($this->config('w3ds.endpoint'));
 		$this->surface->initialize($x, $y, $z);
 		
 	}
@@ -116,7 +116,7 @@ class GisDataProviderTerrainVertexNormals extends LayeredBackend
 	
 	protected function getGround()
 	{
-		$this->terrain = new TerrainAdapter($this->config('w3ds.endpoint'));
+		$this->terrain = new ProceduralTerrainAdapter($this->config('w3ds.endpoint'));
 		
 		
 		$params = array(
@@ -124,23 +124,10 @@ class GisDataProviderTerrainVertexNormals extends LayeredBackend
 			'lod'  => $this->config('w3ds.params.lod')
 		);
 		//must intialize and query in terrain layer!
-		return new TerrainLayer($this->terrain, $params);
+		return new TerrainLayerVertexNomals($this->terrain, $params);
 	}
 	
-	protected function getBuildings()
-	{
-		$this->buildings = new WFSAdapter($this->config('wfs.endpoint'));
-
-		$params = array(
-			'layers'  => $this->config('wfs.params.layers'),
-		);
-
-		return new BuildingLayer(
-			$this->buildings,
-			$params,
-			new BlockBuilder($this->uriResolver)
-		);
-	}
+	
 
 	
 }

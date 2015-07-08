@@ -78,27 +78,12 @@
   "terrain" : {
     "backend" : "gis-data-provider-terrain",
     "config" : {
-      "wms" : {
-        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/wms",
-        "params" : {
-          "layers" : "fiware:terrain_texture_orto",
-          "styles" : "",
-          "bgcolor" : "0xFF8000",
-          "transparent" : false
-        }
-      },
       "w3ds" : {
         "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/w3ds",
         "params" : {
           "layers" : "fiware:terrain",
 		  "lod": 5,
 		  "normalmap-lod": 8
-        }
-      },
-      "wfs" : {
-        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/ows",
-        "params" : {
-          "layers" : "fiware:building_polygons"
         }
       },
       "cache" : 36000
@@ -108,27 +93,12 @@
     "terrain-vertex-normals" : {
     "backend" : "gis-data-provider-terrain-vertex-normals",
     "config" : {
-      "wms" : {
-        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/wms",
-        "params" : {
-          "layers" : "fiware:terrain_texture_orto",
-          "styles" : "",
-          "bgcolor" : "0xFF8000",
-          "transparent" : false
-        }
-      },
       "w3ds" : {
         "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/w3ds",
         "params" : {
           "layers" : "fiware:terrain",
 		  "lod": 5,
 		  "normalmap-lod": 8
-        }
-      },
-      "wfs" : {
-        "endpoint" : "http://130.206.81.238:8080/geoserver/fiware/ows",
-        "params" : {
-          "layers" : "fiware:building_polygons"
         }
       },
       "cache" : 3600

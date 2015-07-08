@@ -4,7 +4,7 @@
 require_once(__DIR__ . '/../adapter.php');
 require_once(__DIR__ . '/../perlin.php');
 
-class TerrainAdapter extends Adapter
+class ProceduralTerrainAdapter extends Adapter
 {
 	protected $terrain = null;
 	protected $format = 'application/octet-stream';
