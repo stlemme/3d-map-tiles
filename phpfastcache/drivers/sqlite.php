@@ -43,7 +43,7 @@ class phpfastcache_sqlite extends phpFastCache implements phpfastcache_driver  {
         $db->exec('drop table if exists "balancing"');
         $db->exec('CREATE TABLE "balancing" ("keyword" VARCHAR PRIMARY KEY NOT NULL UNIQUE, "db" INTEGER)');
         $db->exec('CREATE INDEX "db" ON "balancing" ("db")');
-        $db->exec('CREATE UNIQUE INDEX "lookup" ON "balacing" ("keyword")');
+        $db->exec('CREATE UNIQUE INDEX "lookup" ON "balancing" ("keyword")');
 
     }
 
@@ -128,15 +128,12 @@ class phpfastcache_sqlite extends phpFastCache implements phpfastcache_driver  {
          */
         if(!isset($this->instant[$instant])) {
             // check DB Files ready or not
-            $createTable = false;
-            if(!file_exists($this->path."/db".$instant) || $reset == true) {
-                $createTable = true;
-            }
-            $PDO = new PDO("sqlite:".$this->path."/db".$instant);
-            $PDO->setAttribute(PDO::ATTR_ERRMODE,
-                               PDO::ERRMODE_EXCEPTION);
+            $createTable = (!file_exists($this->path."/db".$instant) || $reset == true);
 
-            if($createTable == true) {
+            $PDO = new PDO("sqlite:".$this->path."/db".$instant);
+            $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            if($createTable) {
                 $this->initDB($PDO);
             }
 
@@ -265,11 +262,16 @@ class phpfastcache_sqlite extends phpFastCache implements phpfastcache_driver  {
     }
 
     function deleteRow($row) {
-        $stm = $this->db($row['keyword'])->prepare("DELETE FROM `caching` WHERE (`id`=:id) OR (`exp` <= :U) ");
-        $stm->execute(array(
-            ":id"   => $row['id'],
-            ":U"    =>  @date("U"),
-        ));
+		try {
+			$stm = $this->db($row['keyword'])->prepare("DELETE FROM `caching` WHERE (`id`=:id) OR (`exp` <= :U) ");
+			$stm->execute(array(
+				":id"   => $row['id'],
+				":U"    =>  @date("U"),
+			));
+			return true;
+        } catch(PDOException $e) {
+			return false;
+		}
     }
 
     function driver_delete($keyword, $option = array()) {

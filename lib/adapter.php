@@ -1,14 +1,21 @@
 <?php
 
 
+require_once(__DIR__ . '/../phpfastcache/phpfastcache.php');
+
+
 abstract class Adapter
 {
 	protected $srs = 'EPSG:4326';
 	protected $endpoint;
+	protected $cache;
 	protected $x, $y, $z;
+	protected $CACHE_TIME = 1000;
+
 
 	public function __construct($endpoint) {
 		$this->endpoint = $endpoint;
+		$this->cache = phpFastCache();
 	}
 	
 	public function initialize($x, $y, $z) {
@@ -20,12 +27,29 @@ abstract class Adapter
 	
 	public abstract function query($layers);
 
-	protected function queryService($params) {
+	private function fget_contents() {
+		$args = func_get_args();
+		// the @ can be removed if you lower error_reporting level
+		$contents = @call_user_func_array('file_get_contents', $args);
+
+		if ($contents === false) {
+			throw new Exception('Failed to open ' . $file);
+		} else {
+			return $contents;
+		}
+	}
+
+	protected function queryService($params, $forceRequest = false) {
 		// TODO: error handling
 		$url = $this->endpoint . '?' . http_build_query($params);
 		// die($url);
-		
-		$data = file_get_contents($url);
+
+		$data = $this->cache->get($url);
+
+		if ($data == null || $forceRequest) {
+			$data = file_get_contents($url);
+			$this->cache->set($url, $data, $this->CACHE_TIME);
+		}
 		// die($data);
 		return $data;
 	}
