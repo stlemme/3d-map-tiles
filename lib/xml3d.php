@@ -202,6 +202,10 @@ class Data extends XmlElement
 	protected function tagName() {
 		return 'data';
 	}
+	
+	public function addData($src = null) {
+		return $this->addChild(new Data($src));
+	}
 }
 
 class Image extends XmlElement
@@ -251,6 +255,18 @@ class Float extends ArrayDataType
 	
 	protected function tagName() {
 		return 'float';
+	}
+}
+
+class Int extends ArrayDataType
+{
+	public function __construct($name, $array) {
+		parent::__construct($name);
+		$this->setArray($array);
+	}
+	
+	protected function tagName() {
+		return 'int';
 	}
 }
 
