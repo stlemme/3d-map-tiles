@@ -36,12 +36,31 @@ class XmlElement
 		$this->children[] = $child;
 		return $child;
 	}
+
+	public function addComment($text = '') {
+		return $this->addChild(new XmlComment($text));
+	}
 	
 	protected function tagName() {
 		return 'unknown';
 	}
 }
 
+class XmlComment extends XmlElement
+{
+	private $text = null;
+	
+	public function __construct($text = '') {
+		parent::__construct(array(
+		));
+		$this->text = $text;
+	}
+
+	public function serialize() {
+		return '<!-- ' . $this->text . ' -->' . PHP_EOL;
+	}
+
+}
 
 class Model extends XmlElement
 {

@@ -5,7 +5,7 @@ require_once(__DIR__ . '/osm-texture.php');
 require_once(__DIR__ . '/../utils.php');
 require_once(__DIR__ . '/../uri-resolver.php');
 require_once(__DIR__ . '/../adapter/overpass-adapter.php');
-require_once(__DIR__ . '/../builder/block-builder.php');
+require_once(__DIR__ . '/../builder/xflow-block-builder.php');
 require_once(__DIR__ . '/../layer/building-layer.php');
 
 
@@ -42,7 +42,7 @@ class OsmGeometry extends OsmTexture
 		return new BuildingLayer(
 			$this->overpass,
 			$params,
-			new BlockBuilder($this->uriResolver)
+			new XflowBlockBuilder($this->uriResolver)
 		);
 	}
 

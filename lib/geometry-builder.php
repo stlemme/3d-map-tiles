@@ -6,7 +6,7 @@ require_once(__DIR__ . '/uri-resolver.php');
 
 abstract class GeometryBuilder
 {
-	protected $shader;
+	public $shader;
 	protected $dataflow;
 	protected $mesh;
 	

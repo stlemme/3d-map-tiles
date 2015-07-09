@@ -9,6 +9,7 @@ require_once(__DIR__ . '/../adapter/wms-adapter.php');
 require_once(__DIR__ . '/../builder/block-builder.php');
 require_once(__DIR__ . '/../layer/building-layer.php');
 require_once(__DIR__ . '/../layer/plane-layer.php');
+require_once(__DIR__ . '/../image-tools.php');
 
 
 class GisDataProvider extends LayeredBackend
@@ -47,10 +48,10 @@ class GisDataProvider extends LayeredBackend
 			'tile_size' => $this->config('texture.resolution')
 		);
 		
-		// TODO: error handling - default texture
-		$this->surface->query($params);
+		if ($this->surface->query($params))
+			return $this->surface->texture();
 		
-		return $this->surface->texture();
+		return ImageTools::placeholder();
 	}
 	
 	

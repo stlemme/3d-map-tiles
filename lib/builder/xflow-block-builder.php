@@ -4,7 +4,7 @@
 require_once(__DIR__ . '/../geometry-builder.php');
 
 
-class BlockBuilder extends GeometryBuilder
+class XflowBlockBuilder extends GeometryBuilder
 {
 	protected $height;
 	

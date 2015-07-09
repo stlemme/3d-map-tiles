@@ -48,7 +48,6 @@ abstract class LayeredBackend extends Backend
 		foreach($this->layers as $name => $layer) {
 			$asset = $all_assets->addAsset($name);
 			$asset->setName($name);
-			// $asset = $xml3d->addAsset($name);
 			$layer->generate($asset);
 		}
 		return $xml3d;
