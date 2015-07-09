@@ -40,8 +40,14 @@ class Response
 	
 	public static function image($data, $format)
 	{
-		header("Content-type: " . $format);
-		echo $data;
+		$mime = $format == 'jpg' ? 'image/jpeg' : 'image/png';
+		header("Content-type: " . $mime);
+		switch ($mime) {
+			case 'image/jpeg': imagejpeg($data); break;
+			case 'image/png': imagepng($data); break;
+		}
+		imagedestroy($data);
+		//echo $data;
 	}
 	
 }

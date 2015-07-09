@@ -26,22 +26,30 @@ class GisDataProvider extends LayeredBackend
 		$this->surface->initialize($x, $y, $z);
 	}
 	
+	
 	protected function getLayers() {
 		return array(
 			'plane' => $this->getGround(),
 			'buildings' => $this->getBuildings()				
 		);
 	}
+	
+	public function getTexture($image, $format) {
+		if ($image != '')
+			return null;
 		
-	public function getTexture() {
 		$params = array(
 			'layers'  => $this->config('wms.params.layers'),
 			'styles' => $this->config('wms.params.styles'),
 			'bgcolor' => $this->config('wms.params.bgcolor'),
-			'transparent' => ($this->config('wms.params.transparent') ? 'true' : 'false')
+			'format' => $this->config('wms.params.format'),
+			'transparent' => ($this->config('wms.params.transparent') ? 'true' : 'false'),
+			'tile_size' => $this->config('texture.resolution')
 		);
 		
+		// TODO: error handling - default texture
 		$this->surface->query($params);
+		
 		return $this->surface->texture();
 	}
 	
@@ -51,7 +59,7 @@ class GisDataProvider extends LayeredBackend
 	
 	protected function getGround()
 	{
-		return new PlaneLayer();
+		return new PlaneLayer($this->config('texture.preference'));
 	}
 	
 	protected function getBuildings()
@@ -69,6 +77,30 @@ class GisDataProvider extends LayeredBackend
 		);
 	}
 
+	protected function defaultConfig() {
+		$config = array(
+			'wfs' => array(
+				'params' => array()
+			),
+			'wms' => array(
+				'params' => array(
+					'styles' => '',
+					'bgcolor' => '0xFF8000',
+					'transparent' => false,
+					'format' => 'image/jpeg'
+				)
+			),
+			'w3ds' => array(
+				'params' => array()
+			),
+			'texture' => array(
+				'preference' => 'png',
+				'resolution' => 256
+			)
+		);
+		
+		return array_replace_recursive(parent::defaultConfig(), $config);
+	}
 	
 }
 

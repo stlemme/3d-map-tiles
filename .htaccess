@@ -12,7 +12,7 @@
     RewriteRule ^([a-z\-_]+)/([0-9]+)/([0-9]+)/([0-9]+)-(model|asset)\.xml$  query.php?request=$5&provider=$1&z=$2&x=$3&y=$4 [L]
 
     # xml3d texture (shader)
-    RewriteRule ^([a-z\-_]+)/([0-9]+)/([0-9]+)/([0-9]+)-(texture)\.(png|jpg)$  query.php?request=$5&provider=$1&z=$2&x=$3&y=$4 [L]
+    RewriteRule ^([a-z\-_]+)/([0-9]+)/([0-9]+)/([0-9]+)-(texture)(-([a-z0-9\-_]+))?\.(png|jpg)$  query.php?request=$5&provider=$1&z=$2&x=$3&y=$4&image=$7&format=$8 [L]
 
     # redirect any other request to the error page
 	RewriteCond %{REQUEST_FILENAME}  !-f

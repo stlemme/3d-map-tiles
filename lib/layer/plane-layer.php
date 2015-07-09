@@ -9,6 +9,11 @@ require_once(__DIR__ . '/../builder/quad-builder.php');
 class PlaneLayer extends Layer
 {
 	protected $diffuse = 'diffuseTexture';
+	protected $format = 'png';
+
+	public function __construct($format = 'png') {
+		$this->format = $format;
+	}
 
 	public function generate($asset)
 	{
@@ -22,7 +27,7 @@ class PlaneLayer extends Layer
 	
 	protected function getTextureReference($texname) {
 		$tex = new Texture($texname);
-		$src = $this->y . '-texture.png';
+		$src = $this->y . '-texture.' . $this->format;
 		$tex->addImage($src);
 		return $tex;
 	}
@@ -33,14 +38,15 @@ class ExternalPlaneLayer extends PlaneLayer
 {
 	protected $url;
 	
-	public function __construct($url) {
+	public function __construct($url, $format = 'png') {
+		parent::__construct($format);
 		$this->url = $url;
 		
 	}
 
 	protected function getTextureReference($texname) {
 		$tex = new Texture($texname);
-		$src = $this->url . '/' . $this->z . '/' . $this->x . '/' . $this->y . '.png';
+		$src = $this->url . '/' . $this->z . '/' . $this->x . '/' . $this->y . '.' . $this->format;
 		$tex->addImage($src);
 		return $tex;
 	}

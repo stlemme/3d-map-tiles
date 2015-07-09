@@ -7,7 +7,7 @@ require_once(__DIR__ . '/utils.php');
 abstract class Backend
 {
 	protected $z, $x, $y;
-	protected $config;
+	private $config;
 	
 	///////////////////////////////////////////////////////////////////////////
 	
@@ -17,13 +17,13 @@ abstract class Backend
 		$this->y = $y;
 	}
 	
-	public function useCaching($request) {
-		return false;
+	public function caching($request) {
+		return intval($this->config('cache'));
 	}
 	
 	abstract public function getModel();
 	abstract public function getAssetData();
-	public function getTexture() {
+	public function getTexture($image, $format) {
 		return null;
 	}
 	
@@ -40,14 +40,18 @@ abstract class Backend
 	///////////////////////////////////////////////////////////////////////////
 	
 	protected function __construct($config) {
-		$this->config = $config;
+		$this->config = array_replace_recursive($this->defaultConfig(), $config);
 	}
 	
 	protected function config($path) {
 		return Utils::json_path($this->config, $path);
 	}
 	
-	
+	protected function defaultConfig() {
+		return array(
+			'cache' => 300
+		);
+	}
 	
 }
 
