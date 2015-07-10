@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../utils.php');
 require_once(__DIR__ . '/../uri-resolver.php');
 require_once(__DIR__ . '/../adapter/wfs-adapter.php');
 require_once(__DIR__ . '/../adapter/wms-adapter.php');
-require_once(__DIR__ . '/../builder/block-builder.php');
+require_once(__DIR__ . '/../builder/xflow-block-builder.php');
 require_once(__DIR__ . '/../layer/building-layer.php');
 require_once(__DIR__ . '/../layer/plane-layer.php');
 require_once(__DIR__ . '/../image-tools.php');
@@ -74,7 +74,7 @@ class GisDataProvider extends LayeredBackend
 		return new BuildingLayer(
 			$this->buildings,
 			$params,
-			new BlockBuilder($this->uriResolver)
+			new XflowBlockBuilder($this->uriResolver)
 		);
 	}
 

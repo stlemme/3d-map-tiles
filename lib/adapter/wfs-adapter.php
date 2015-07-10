@@ -24,13 +24,16 @@ class WFSAdapter extends GeometryAdapter
 			'outputFormat' => $this->format,
 		);
 		
-		$data = $this->queryService($params);
-		// die($data);
+		$result = $this->queryService($params);
+		if ($result === null)
+			return false;
 		
-		$collection = json_decode($data);
-		// print_r($collection);
+		$collection = json_decode($result);
+		if ($collection === null)
+			return false;
 		
 		$this->meshes = $this->processFeatures($collection->features);
+		return true;
 	}
 	
 	

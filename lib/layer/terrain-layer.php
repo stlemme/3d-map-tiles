@@ -5,7 +5,7 @@ require_once(__DIR__ . '/../layer.php');
 require_once(__DIR__ . '/../xml3d.php');
 
 
-class TerrainLayer extends Layer
+abstract class TerrainLayer extends Layer
 {
 	protected $diffuse = 'diffuseTexture';
 	protected $format = 'png';
