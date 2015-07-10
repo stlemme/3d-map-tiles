@@ -1,35 +1,19 @@
 <?php
 
 
-require_once(__DIR__ . '/../layer.php');
+require_once(__DIR__ . '/terrain-layer.php');
 require_once(__DIR__ . '/../xml3d.php');
 require_once(__DIR__ . '/../builder/quad-builder.php');
 
 
-class PlaneLayer extends Layer
+class PlaneLayer extends TerrainLayer
 {
-	protected $diffuse = 'diffuseTexture';
-	protected $format = 'png';
-
-	public function __construct($format = 'png') {
-		$this->format = $format;
-	}
-
 	public function generate($asset)
 	{
-		// TODO: $this->elevation->query();
-		
 		$mesh = $asset->addAssetMesh();
 		$builder = new QuadBuilder($this->uriResolver);
 		$builder->generate($mesh, null);
 		$mesh->addChild($this->getTextureReference($this->diffuse));
-	}
-	
-	protected function getTextureReference($texname) {
-		$tex = new Texture($texname);
-		$src = $this->y . '-texture.' . $this->format;
-		$tex->addImage($src);
-		return $tex;
 	}
 }
 
