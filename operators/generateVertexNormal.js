@@ -1,8 +1,11 @@
 
-// XML3D.options.setValue("renderer-faceculling", "back");
+var Xflow = Xflow || {};
+var XML3D = XML3D || {};
+	
+(function() {
 
 
-Xflow.registerOperator("xflow.vertexNormal", {
+Xflow.registerOperator("xflow.generateVertexNormal", {
 	outputs: [	{type: 'float3', name: 'normal', customAlloc: true} ],
 	params:  [  {type: 'float3', source: 'position', array: true },
 				{type: 'int', source: 'index' } ],
@@ -80,3 +83,5 @@ Xflow.registerOperator("xflow.vertexNormal", {
 	}
 });
 
+
+})();

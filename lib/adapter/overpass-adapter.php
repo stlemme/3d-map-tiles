@@ -1,10 +1,10 @@
 <?php
 
 
-require_once(__DIR__ . '/../geometry-adapter.php');
+require_once(__DIR__ . '/../geometry-service-adapter.php');
 
 
-class OverpassAdapter extends GeometryAdapter
+class OverpassAdapter extends GeometryServiceAdapter
 {
 	protected $format = 'json';
 	protected $nodes = array();

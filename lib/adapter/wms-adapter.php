@@ -1,10 +1,10 @@
 <?php
 
 
-require_once(__DIR__ . '/../adapter.php');
+require_once(__DIR__ . '/../service-adapter.php');
 
 
-class WMSAdapter extends Adapter
+class WMSAdapter extends ServiceAdapter
 {
 	protected $texture = null;
 
@@ -36,7 +36,7 @@ class WMSAdapter extends Adapter
 		if ($result === null)
 			return false;
 		
-		$img = @imagecreatefromstring($result);
+		$img = ImageTools::fromstring($result);
 		if ($img === false)
 			return false;
 		

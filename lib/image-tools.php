@@ -9,6 +9,10 @@ class ImageTools
 		return @imagecreatefrompng($url);
 	}
 
+	public static function fromstring($data) {
+		return @imagecreatefromstring($data);
+	}
+
 	public static function create($width, $height) {
 		return @imagecreatetruecolor($width, $height);
 	}

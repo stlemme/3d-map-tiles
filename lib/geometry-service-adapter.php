@@ -1,19 +1,15 @@
 <?php
 
 
-require_once(__DIR__ . '/adapter.php');
+require_once(__DIR__ . '/service-adapter.php');
 
 
-abstract class GeometryAdapter extends Adapter
+abstract class GeometryServiceAdapter extends ServiceAdapter
 {
 	protected $meshes = array();
 	protected $heights = array();
 	protected $names = array();
 
-	// public function __construct($endpoint) {
-		// parent::__construct($endpoint);
-	// }
-	
 	public function meshes() {
 		return $this->meshes;
 	}

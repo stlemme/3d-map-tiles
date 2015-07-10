@@ -22,7 +22,7 @@ class BuildingLayer extends Layer
 	
 	public function generate($asset)
 	{
-		if (!$this->adapter->query($this->params, true)) {
+		if (!$this->adapter->query($this->params)) {
 			$asset->addComment('Request to backend service failed.');
 			return;
 		}

@@ -1,12 +1,11 @@
 
-// XML3D.options.setValue("renderer-faceculling", "back");
+var Xflow = Xflow || {};
+var XML3D = XML3D || {};
+	
+(function() {
 
 
-
-/**
- * Grid Generation
- */
-Xflow.registerOperator("xflow.mygrid", {
+Xflow.registerOperator("xflow.grid", {
     outputs: [	{type: 'float3', name: 'position', customAlloc: true},
 				{type: 'float3', name: 'normal', customAlloc: true},
 				{type: 'float2', name: 'texcoord', customAlloc: true},
@@ -30,29 +29,22 @@ Xflow.registerOperator("xflow.mygrid", {
 		
         // Create Positions
 		for(var i = 0; i < l; i++) {
-			var offset = i*3;
-			position[offset] =  (((i % s) / (s-1))-0.5)*2;
-			position[offset+1] = 0;
-			position[offset+2] = ((Math.floor(i/t) / (t-1))-0.5)*2;
-			// position[offset+2] = ((Math.floor(i/s) / (s-1))-0.5)*2;
-		}
+			var off3 = i*3;
+			var off2 = i*2;
+			
+			var x = (i % s) / (s - 1);
+			var z = Math.floor(i / t) / (t - 1);
 
-        // Create Normals
-		for(var i = 0; i < l; i++) {
-			var offset = i*3;
-			normal[offset] =  0;
-			normal[offset+1] = 1;
-			normal[offset+2] = 0;
-		}
-        // Create Texture Coordinates
-		for(var i = 0; i < l; i++) {
-			var offset = i*2;
-			// tx in range [0..1] not [0..1)
-            texcoord[offset] = (i%s) / s;
-            texcoord[offset+1] = 1.0 - (Math.floor(i/t) / t);
-            // texcoord[offset] = (i%s) / (s-1);
-            // texcoord[offset+1] = 1.0 - (Math.floor(i/t) / (t-1));
-            // texcoord[offset+1] = Math.floor(i/s) / (s-1);
+			position[off3  ] = x;
+			position[off3+1] = 0;
+			position[off3+2] = z;
+
+			normal[off3    ] = 0;
+			normal[off3+1  ] = 1;
+			normal[off3+2  ] = 0;
+
+            texcoord[off2  ] = x;
+            texcoord[off2+1] = 1.0 - z;
 		}
 
         // Create Indices for triangles
@@ -67,6 +59,7 @@ Xflow.registerOperator("xflow.mygrid", {
 			index[offset++] = base + s + 1;
 			index[offset++] = base + 1;
 		}
+		
 		// var tl = (s-1) * (t-1);
 		// var offset = 0;
 		// for(var i = 0; i < t-1; i++) {
@@ -100,3 +93,5 @@ Xflow.registerOperator("xflow.mygrid", {
 	}
 });
 
+
+})();

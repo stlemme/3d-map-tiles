@@ -1,10 +1,10 @@
 <?php
 
 
-require_once(__DIR__ . '/../geometry-adapter.php');
+require_once(__DIR__ . '/../service-adapter.php');
 
 
-class W3DSAdapter extends GeometryAdapter
+class W3DSAdapter extends ServiceAdapter
 {
 	protected $format = 'json';
 
