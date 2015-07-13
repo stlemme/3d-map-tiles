@@ -2,10 +2,15 @@
   "osm" : {
     "backend" : "osm-geometry",
     "config" : {
-      "endpoint" : "http://overpass-api.de/api/interpreter",
-      "params" : {
+      "overpass" : {
+        "endpoint" : "http://overpass-api.de/api/interpreter"
       },
-      "osm-url" : "http://a.tile.openstreetmap.org",
+      "osm" : {
+        "endpoint" : "http://a.tile.openstreetmap.org"
+      },
+      "texture" : {
+        "lod-delta" : 0
+      },
       "cache" : 300
     }
   }

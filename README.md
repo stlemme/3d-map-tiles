@@ -36,7 +36,9 @@ Configuration
   "ground" : {
     "backend" : "osm-texture",
     "config" : {
-      "url" : "http://a.tile.openstreetmap.org"
+	  "osm" : {
+        "endpoint" : "http://a.tile.openstreetmap.org"
+	  }
     }
   }
 }
@@ -53,10 +55,15 @@ Configuration
   "buildings" : {
     "backend" : "osm-geometry",
     "config" : {
-      "endpoint" : "http://overpass-api.de/api/interpreter",
-      "params" : {
+      "overpass" : {
+	    "endpoint" : "http://overpass-api.de/api/interpreter"
+	  },
+      "osm" : {
+        "endpoint" : "http://a.tile.openstreetmap.org"
       },
-      "osm-url" : "http://a.tile.openstreetmap.org"
+	  "texture" : {
+	    "lod-delta" : 1
+      }
     }
   }
 }
@@ -80,10 +87,7 @@ Configuration
       "wms" : {
         "endpoint" : "http://HOST/geoserver/fiware/wms",
         "params" : {
-          "layers" : "fiware:terrain_texture_orto",
-          "styles" : "",
-          "bgcolor" : "0xFF8000",
-          "transparent" : false
+          "layers" : "fiware:terrain_texture_orto"
         }
       },
       "wfs" : {
