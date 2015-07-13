@@ -20,6 +20,10 @@ class Utils
 		}
 	}
 	
+	public static function clamp($x, $a, $b) {
+		return min(max(intval($x), $a), $b);
+	}
+	
 	// public static function generate_guidv4()
 	// {
 		// $data = openssl_random_pseudo_bytes(16);

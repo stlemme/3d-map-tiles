@@ -12,11 +12,12 @@ class HeightfieldLayer extends TerrainLayer
 	protected $normal = 'normalTexture';
 	protected $useVertexNormals = true;
 	
-	public function __construct($adapter, $params, $format = 'png')
+	public function __construct($adapter, $params, $useVertexNormals = true, $format = 'png')
 	{
 		parent::__construct($format);
 		$this->adapter = $adapter;
 		$this->params = $params;
+		$this->useVertexNormals = $useVertexNormals;
 	}
 
 	public function generate($asset)

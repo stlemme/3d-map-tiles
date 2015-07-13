@@ -6,6 +6,7 @@ require_once(__DIR__ . '/lib/backend.php');
 require_once(__DIR__ . '/lib/utils.php');
 require_once(__DIR__ . '/lib/response.php');
 require_once(__DIR__ . '/phpfastcache/phpfastcache.php');
+require_once(__DIR__ . '/lib/image-tools.php');
 
 
 if (!isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['z']) || !isset($_GET['provider'])) {
@@ -18,6 +19,11 @@ $z = intval($_GET['z']);
 
 $provider = $_GET['provider'];
 $request = $_GET['request'];
+
+if ($request == 'texture') {
+	$image = isset($_GET['image']) ? $_GET['image'] : '';
+	$format = isset($_GET['format']) ? $_GET['format'] : 'png';
+}
 
 $configFile = realpath(__DIR__ . '/config.json');
 if (($configFile === null) || !file_exists($configFile)) {
@@ -59,7 +65,7 @@ if ($caching > 0) {
 	$data = $cache->get($keyword);
 }
 
-if ($data == null) {
+if ($data === null) {
 
 	switch($request) {
 		case 'model':
@@ -69,9 +75,9 @@ if ($data == null) {
 			$result = $backend->getAssetData();
 			break;
 		case 'texture':
-			$image = isset($_GET['image']) ? $_GET['image'] : '';
-			$format = isset($_GET['format']) ? $_GET['format'] : 'png';
-			$result = $backend->getTexture($image, $format);
+			$img = $backend->getTexture($image, $format);
+			$result = ImageTools::compress($img, $format);
+			ImageTools::free($img);
 			break;
 		default:
 			$result = null;
@@ -81,7 +87,9 @@ if ($data == null) {
 		$cache->set($keyword, $result, $caching);
 	
 } else {
+	
 	$result = $data;
+	
 }
 
 if ($result !== null) {

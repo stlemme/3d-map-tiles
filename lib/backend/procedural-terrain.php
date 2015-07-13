@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../utils.php');
 require_once(__DIR__ . '/../uri-resolver.php');
 require_once(__DIR__ . '/../adapter/procedural-adapter.php');
 require_once(__DIR__ . '/../layer/heightfield-layer.php');
+require_once(__DIR__ . '/../image-tools.php');
 
 
 class ProceduralTerrain extends LayeredBackend
@@ -17,10 +18,6 @@ class ProceduralTerrain extends LayeredBackend
 		parent::initialize($z, $x, $y);
 		
 		$this->terrain->initialize($x, $y, $z);
-
-		// $this->surface = new ProceduralTerrainAdapter($this->config('w3ds.endpoint'));
-		// $this->surface->initialize($x, $y, $z);
-		
 	}
 	
 	protected function getLayers() {
@@ -29,60 +26,64 @@ class ProceduralTerrain extends LayeredBackend
 		);
 	}
 	
-	// public function getTexture($image, $format) {
-		// if ($image != 'normal')
-			// return;
+	public function getTexture($image, $format) {
+		if ($image != 'normal')
+			return null;
 
-		// $lod=$this->config('w3ds.params.normalmap-lod');
-		// if($lod==null){
-			// $lod=8;
-		// }
-		// $params = array(
-			// 'layers'  => $this->config('w3ds.params.layers'),
-			// 'lod'  => $lod
-		// );
+		$params = array(
+			'lod' => $this->config('texture.normalmap-lod')
+		);
 		
-		// $this->surface->query($params);
-		// $resolution=pow(2,$lod);
+		// TODO: double check that this makes sense
 		
-		// $vertexcount_per_row=$resolution+1;
+		$this->terrain->query($params);
+
+		$vertexcount_per_row = $this->terrain->size()[0];
+		$resolution = $vertexcount_per_row - 1;
+
 		// $C = 40075017; // earth equatorial circumference in meters
 		// $longitude=((($this->y+0.5)/pow(2,$this->z))-0.5)*3.14159265359; //[-90,90] deg
 		// $tilesize = $C * cos($longitude) / pow(2,$this->z);
-		// $vertexdistance=$tilesize/$resolution;
-		// $evelation=$this->surface->data();
-		// $im = @imagecreatetruecolor ($resolution,$resolution);
-		// for($y=0;$y<$resolution;$y++){
-			// for($x=0;$x<$resolution;$x++){
+		$vertexdistance = 1/$resolution;
+		
+		
+		$img = ImageTools::create($resolution, $resolution);
+		
+		$elevation = $this->terrain->data();
+
+		for ($t = 0; $t < $resolution; $t++) {
+			for ($s = 0; $s < $resolution; $s++) {
 				
-				// $h00=$evelation[$x+$y*$vertexcount_per_row];
-				// $h10=$evelation[$x+1+$y*$vertexcount_per_row];
-				// $h01=$evelation[$x+($y+1)*$vertexcount_per_row];
-				// $h11=$evelation[$x+1+($y+1)*$vertexcount_per_row];
-				// $uz=($h11+$h01-$h00-$h10)/2;
-				// $vz=($h00+$h01-$h11-$h10)/2;
+				$idx = $t*$vertexcount_per_row + $s;
+				
+				$h00 = $elevation[$idx];
+				$h10 = $elevation[$idx + 1                       ];
+				$h01 = $elevation[$idx     + $vertexcount_per_row];
+				$h11 = $elevation[$idx + 1 + $vertexcount_per_row];
+				$uz  = 0.5 * ($h11+$h01-$h00-$h10);
+				$vz  = 0.5 * ($h00+$h01-$h11-$h10);
 				
 				// cross product
-				// $x_comp=$vertexdistance*$vz;
-				// $y_comp=-$vertexdistance*$uz;
-				// $z_comp=$vertexdistance*$vertexdistance;
+				$x =  $vertexdistance*$vz;
+				$y = -$vertexdistance*$uz;
+				$z =  $vertexdistance*$vertexdistance;
 				
-				// $length=sqrt(pow($x_comp,2)+pow($y_comp,2)+pow($z_comp,2));
+				$l = sqrt($x*$x + $y*$y + $z*$z);
+				$k = 127/$l;
 				
-				// $r_value=intval($x_comp/$length*127+128);
-				// $g_value=intval($y_comp/$length*127+128);
-				// $b_value=intval($z_comp/$length*127+128);
+				$r = Utils::clamp($k*$x + 128, 0, 255);
+				$g = Utils::clamp($k*$y + 128, 0, 255);
+				$b = Utils::clamp($k*$z + 128, 0, 255);
 				
-				// $color=imagecolorallocate($im,$r_value,$g_value,$b_value);
-				
-				
-				// imagesetpixel($im,$x,$y,$color);
-				
-			// }
-		// }
+				ImageTools::setpixel($img, $s, $t, $r, $g, $b);
+			}
+		}
 		
-		// return $im;
-	// }
+		if ($img === null)
+			$img = ImageTools::placeholder();
+		
+		return $img;
+	}
 	
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -90,18 +91,34 @@ class ProceduralTerrain extends LayeredBackend
 	
 	protected function getGround()
 	{
-		$this->terrain = new ProceduralAdapter($this->config('w3ds.endpoint'));
+		$this->terrain = new ProceduralAdapter($this->config('seed'));
 		
 		$params = array(
-			// 'layers'  => $this->config('w3ds.params.layers'),
-			'lod'  => $this->config('mesh.lod')
+			'lod' => $this->config('mesh.lod')
 		);
 		
-		//must intialize and query in terrain layer!
-		return new HeightfieldLayer($this->terrain, $params);
+		return new HeightfieldLayer(
+			$this->terrain, $params,
+			$this->config('mesh.vertex-normals'),
+			$this->config('texture.preference')
+		);
 	}
 	
-	
+	protected function defaultConfig() {
+		$config = array(
+			'mesh' => array(
+				'lod' => 4,
+				'vertex-normals' => true
+			),
+			'texture' => array(
+				'preference' => 'png',
+				'normalmap-lod' => 8
+			),
+			'seed' => 2000
+		);
+		
+		return array_replace_recursive(parent::defaultConfig(), $config);
+	}
 
 	
 }
