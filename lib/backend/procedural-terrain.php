@@ -41,10 +41,11 @@ class ProceduralTerrain extends LayeredBackend
 		$vertexcount_per_row = $this->terrain->size()[0];
 		$resolution = $vertexcount_per_row - 1;
 
-		// $C = 40075017; // earth equatorial circumference in meters
-		// $longitude=((($this->y+0.5)/pow(2,$this->z))-0.5)*3.14159265359; //[-90,90] deg
-		// $tilesize = $C * cos($longitude) / pow(2,$this->z);
-		$vertexdistance = 1/$resolution;
+		$C = 40075017; // earth equatorial circumference in meters
+		$longitude=((($this->y+0.5)/pow(2,$this->z))-0.5)*3.14159265359; //[-90,90] deg
+		$tilesize = $C * cos($longitude) / pow(2,$this->z);
+		//vertex distance in meters
+		$vertexdistance = $tilesize/$resolution;
 		
 		
 		$img = ImageTools::create($resolution, $resolution);
@@ -108,7 +109,7 @@ class ProceduralTerrain extends LayeredBackend
 		$config = array(
 			'mesh' => array(
 				'lod' => 4,
-				'vertex-normals' => true
+				'vertex-normals' => false
 			),
 			'texture' => array(
 				'preference' => 'png',

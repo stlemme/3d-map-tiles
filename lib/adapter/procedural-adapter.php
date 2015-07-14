@@ -17,7 +17,7 @@ class ProceduralAdapter extends Adapter
 	//radius of virtual sphere, used to control frequency spectrum
 	private $r = 15000;
 	private $octaves = 30;
-	private $scaling = 15;
+	private $scaling = 4000;
 	
 	
 	public function __construct($seed = null)
