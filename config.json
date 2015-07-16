@@ -40,6 +40,16 @@
     }
   },
   
+    "terrain-vertex-normals" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 600,
+	  "mesh":{
+	    "vertex-normals": true
+	  }
+    }
+  },
+  
   "osm" : {
     "backend" : "osm-geometry",
     "config" : {
