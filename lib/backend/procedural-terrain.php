@@ -40,10 +40,7 @@ class ProceduralTerrain extends LayeredBackend
 
 		$vertexcount_per_row = $this->terrain->size()[0];
 		$resolution = $vertexcount_per_row - 1;
-
-		$C = 40075017; // earth equatorial circumference in meters
-		$longitude=((($this->y+0.5)/pow(2,$this->z))-0.5)*3.14159265359; //[-90,90] deg
-		$tilesize = $C * cos($longitude) / pow(2,$this->z);
+		$tilesize=$this->terrain->tilesize();
 		//vertex distance in meters
 		$vertexdistance = $tilesize/$resolution;
 		

@@ -36,7 +36,17 @@
   "terrain" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 600
+      "cache" : 3600
+    }
+  },
+  
+    "terrain-vertex-normals" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 3600,
+	  "mesh":{
+	    "vertex-normals": true
+	  }
     }
   },
   

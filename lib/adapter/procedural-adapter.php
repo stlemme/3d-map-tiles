@@ -14,10 +14,11 @@ class ProceduralAdapter extends Adapter
 	
 	protected $perlin;
 	
-	//radius of virtual sphere, used to control frequency spectrum
-	private $r = 15000;
-	private $octaves = 30;
-	private $scaling = 4000;
+	//earth radius in kilometres (avg)
+	//*10 because lack of noise due to low amount of octaves
+	private $r = 6371*10;
+	private $octaves = 25*10;
+	private $scaling = 3000;
 	
 	
 	public function __construct($seed = null)
@@ -27,21 +28,21 @@ class ProceduralAdapter extends Adapter
 
 	public function query($params)
 	{
-		// TODO: use $bbox for bilinear interpolation
-		// $bbox = $this->tile_bounds();
-		
+
 		$this->size = pow(2, $params['lod']) + 1;
 		$this->data = [];
 
-		$tilesize = 1 / pow(2, $this->z);
-		$xtileoffset = $tilesize * $this->x;
-		$ytileoffset = $tilesize * $this->y;
+		$bbox = $this->tile_bounds();
 		
-		$this->sample3dSphere($xtileoffset, $ytileoffset, $tilesize);
+		$this->sample3dSphere($bbox);
 	}
 	
 	public function size() {
 		return [$this->size, $this->size];
+	}
+	
+	public function tilesize(){
+		return $this->tile_size();
 	}
 	
 	
@@ -49,15 +50,16 @@ class ProceduralAdapter extends Adapter
 		return $this->data;
 	}
 	
-	private function sample3dSphere($offx, $offy, $tilesize) {
+	private function sample3dSphere($bbox) {
 		for ($y = 0; $y < $this->size; $y++) {
 			for ($x = 0; $x < $this->size; $x++) {
 				$s = $x / ($this->size-1);
 				$t = $y / ($this->size-1);
 				
-				$phi   = (($offx + $tilesize*$s) - 0.5) * M_PI*2; //[-180,180] deg
-				$omega = (($offy + $tilesize*$t) - 0.5) * M_PI; //[90,-90] deg
-				
+				//linear interpolation + deg2rad
+				$phi= ($s*$bbox[2]+(1-$s)*$bbox[0])* 0.017453292519943295;
+				$omega= ($t*$bbox[1]+(1-$t)*$bbox[3])* 0.017453292519943295;
+
 				//convert sphere coordinates to 3D texture space coordinates 
 				$x_tex = $this->r*sin($omega)*cos($phi);
 				$y_tex = $this->r*sin($omega)*sin($phi);
