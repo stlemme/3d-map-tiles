@@ -92,7 +92,9 @@ class ProceduralTerrain extends LayeredBackend
 		$this->terrain = new ProceduralAdapter($this->config('seed'));
 		
 		$params = array(
-			'lod' => $this->config('mesh.lod')
+			'lod' => $this->config('mesh.lod'),
+			'vertex-normals'=> $this->config('mesh.vertex-normals'),
+			'vertex-normals-lod'=> $this->config('mesh.vertex-normals-lod')
 		);
 		
 		return new HeightfieldLayer(
@@ -106,7 +108,8 @@ class ProceduralTerrain extends LayeredBackend
 		$config = array(
 			'mesh' => array(
 				'lod' => 4,
-				'vertex-normals' => false
+				'vertex-normals' => false,
+				'vertex-normals-lod'=> 16
 			),
 			'texture' => array(
 				'preference' => 'png',

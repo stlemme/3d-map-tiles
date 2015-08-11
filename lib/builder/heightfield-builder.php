@@ -22,7 +22,8 @@ class HeightfieldBuilder extends GeometryBuilder
 		$data = $mesh->addData();
 		
 		if ($options['vertex-normals']) {
-			$data->compute("dataflow['" . $this->dataflow->getReference('generateVertexNormal') . "']");
+			//$data->compute("dataflow['" . $this->dataflow->getReference('generateVertexNormal') . "']");
+			$data->addChild(new Float3('normal', $options['normals']));
 			$data = $data->addData();
 		}
 
