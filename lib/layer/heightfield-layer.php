@@ -33,7 +33,8 @@ class HeightfieldLayer extends TerrainLayer
 
 		$vertices = $this->adapter->data();
 		$options = array(
-			'dimensions' => $this->adapter->size(),
+			//'dimensions' => $this->adapter->size(),
+			'lod' => $this->params['lod'],
 			'vertex-normals' => $this->useVertexNormals,
 			'normals'=> $this->adapter->normals()
 		);

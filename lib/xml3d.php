@@ -210,6 +210,12 @@ class Data extends XmlElement
 			$this->attributes['src'] = $src;
 	}
 	
+	public function setName($name) {
+		if ($name === null)
+			return;
+		$this->attributes['name'] = $name;
+	}
+	
 	public function compute($operation) {
 		$this->attributes['compute'] = $operation;
 	}

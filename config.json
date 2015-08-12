@@ -36,7 +36,7 @@
   "terrain" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 3600
+      "cache" : 30
     },
 	"texture":{
 		"normalmap-lod" : 6
@@ -46,7 +46,7 @@
     "terrain-vertex-normals" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 3600,
+      "cache" : 30,
 	  "mesh":{
 	    "vertex-normals": true,
 		"vertex-normals-lod":14
