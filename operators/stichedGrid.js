@@ -4,6 +4,7 @@ var XML3D = XML3D || {};
 	
 (function() {
 
+/*
 function create_patch (x,y,dimensions){
 	var base = x+y*dimensions;
 	var offset=0;
@@ -15,10 +16,18 @@ function create_patch (x,y,dimensions){
 	index[offset++] = base + dimensions + 1;
 	index[offset++] = base + 1;
 	return index;
+}*/
+
+function create_patch (x,y,dimensions,offset,index){
+	var base = x+y*dimensions;
+	index[offset++] = base + 1;
+	index[offset++] = base;
+	index[offset++] = base + dimensions;
+	index[offset++] = base + dimensions;
+	index[offset++] = base + dimensions + 1;
+	index[offset++] = base + 1;
+	return offset;
 }
-
-
-
 
 
 Xflow.registerOperator("xflow.stichedGrid", {
@@ -26,9 +35,10 @@ Xflow.registerOperator("xflow.stichedGrid", {
 				{type: 'float3', name: 'normal', customAlloc: true},
 				{type: 'float2', name: 'texcoord', customAlloc: true},
 				{type: 'int', name: 'index', customAlloc: true}],
-    params:  [  {type: 'int', source: 'lod', array: false},
-				{type: 'int', source: 'stitching', array: true}],
-    alloc: function(sizes, lod , stitching)
+    params:  [  {type: 'int', source: 'lod', array: true},
+				{type: 'int', source: 'stitching', array: true},
+				{type: 'float', source: 'elevation', array: true}],
+    alloc: function(sizes, lod , stitching,elevation)
     {
 		//warning! code will only work for lod>=2!!
 		var dimensions=Math.pow(2,lod[0])+1;
@@ -56,7 +66,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 		}
         sizes['index'] = indexsize*3;
     },
-    evaluate: function(position, normal, texcoord, index, lod, stitching) {
+    evaluate: function(position, normal, texcoord, index, lod, stitching, elevation) {
 		var dimensions=Math.pow(2,lod[0])+1;
 		
 		var l = dimensions*dimensions;
@@ -70,7 +80,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 			var z = Math.floor(i / dimensions) / (dimensions - 1);
 
 			position[off3  ] = x;
-			position[off3+1] = 0;
+			position[off3+1] = elevation[i];
 			position[off3+2] = z;
 
 			normal[off3    ] = 0;
@@ -87,11 +97,13 @@ Xflow.registerOperator("xflow.stichedGrid", {
 		// Create Indices for the center of the tile
 		for(var y = 1; y <= dimensions-3 ; y++) {
 			for(var x = 1; x <= dimensions-3 ; x++) {
+				/*
 				var tris=create_patch (x,y,dimensions);
 				for(var i=0;i<tris.length;i++){
 					index[offset++]=tris[i];
 				}
-				
+				*/
+				offset=create_patch (x,y,dimensions,offset,index);
 			}
 		}
 		
@@ -111,10 +123,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 		
 			//everything in-between
 			for(var y=1;y<=dimensions-3;y++){
-				var tris=create_patch (0,y,dimensions);
-				for(var i=0;i<tris.length;i++){
-					index[offset++]=tris[i];
-				}
+				offset=create_patch (0,y,dimensions,offset,index);
 			}
 		}
 		else{
@@ -180,10 +189,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 			
 			//everything in-between
 			for(var x=1;x<=dimensions-3;x++){
-				var tris=create_patch (x,dimensions-2,dimensions);
-				for(var i=0;i<tris.length;i++){
-					index[offset++]=tris[i];
-				}
+				offset=create_patch (x,dimensions-2,dimensions,offset,index);
 			}
 			
 		}
@@ -249,10 +255,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 			
 			//everything in-between
 			for(var y=1;y<=dimensions-3;y++){
-				var tris=create_patch (dimensions-2,y,dimensions);
-				for(var i=0;i<tris.length;i++){
-					index[offset++]=tris[i];
-				}
+				offset=create_patch (dimensions-2,y,dimensions,offset,index);
 			}
 		}
 		else{
@@ -319,10 +322,7 @@ Xflow.registerOperator("xflow.stichedGrid", {
 			
 			//everything in-between
 			for(var x=1;x<=dimensions-3;x++){
-				var tris=create_patch (x,0,dimensions);
-				for(var i=0;i<tris.length;i++){
-					index[offset++]=tris[i];
-				}
+				offset=create_patch (x,0,dimensions,offset,index);
 			}
 			
 		}

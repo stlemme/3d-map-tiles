@@ -27,7 +27,7 @@ class HeightfieldLayer extends TerrainLayer
 			return;
 		}
 		
-		$mesh = $asset->addAssetMesh();
+		//$mesh = $asset->addAssetMesh();
 		
 		$this->builder = new HeightfieldBuilder($this->uriResolver);
 
@@ -38,7 +38,7 @@ class HeightfieldLayer extends TerrainLayer
 			'vertex-normals' => $this->useVertexNormals,
 			'normals'=> $this->adapter->normals()
 		);
-		$this->builder->generate($mesh, $vertices, $options);
+		$this->builder->generate($asset, $vertices, $options);
 		
 		if (!$this->useVertexNormals)
 			$mesh->addChild($this->getTextureReference($this->diffuse, 'normal')); // $this->normal));

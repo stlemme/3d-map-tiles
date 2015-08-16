@@ -125,9 +125,14 @@ class Asset extends XmlElement
 		return $this->addChild(new Asset($id));
 	}
 	
+	public function addAssetData($src = null) {
+		return $this->addChild(new AssetData($src));
+	}
+	
 	public function setName($name) {
 		$this->attributes['name'] = $name;
 	}
+	
 	
 	protected function tagName() {
 		return 'asset';
@@ -147,10 +152,18 @@ class AssetMesh extends XmlElement
 		return $this->addChild(new Data($src));
 	}
 	
+	public function addAssetData($src = null) {
+		return $this->addChild(new AssetData($src));
+	}
+	
 	public function setMeshType($meshType) {
 		if ($meshType === null)
 			return;
 		$this->attributes['type'] = $meshType;
+	}
+	
+	public function setIncludes($name) {
+		$this->attributes['includes'] = $name;
 	}
 	
 	public function setShader($shader) {
@@ -230,6 +243,46 @@ class Data extends XmlElement
 	
 	public function addData($src = null) {
 		return $this->addChild(new Data($src));
+	}
+	
+	public function addAssetData($src = null) {
+		return $this->addChild(new AssetData($src));
+	}
+}
+
+class AssetData extends XmlElement
+{
+	public function __construct($src = null) {
+		parent::__construct(array(
+		));
+		if ($src !== null)
+			$this->attributes['src'] = $src;
+	}
+	
+	public function setName($name) {
+		if ($name === null)
+			return;
+		$this->attributes['name'] = $name;
+	}
+	
+	public function compute($operation) {
+		$this->attributes['compute'] = $operation;
+	}
+	
+	public function filter($operation) {
+		$this->attributes['filter'] = $operation;
+	}
+
+	protected function tagName() {
+		return 'assetdata';
+	}
+	
+	public function addData($src = null) {
+		return $this->addChild(new Data($src));
+	}
+	
+	public function addAssetData($src = null) {
+		return $this->addChild(new AssetData($src));
 	}
 }
 
