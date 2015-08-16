@@ -90,17 +90,36 @@
 		</compute>
 	</dataflow>
 	
-	<dataflow id="dataflow_generateStichedGrid" out="position, normal, texcoord, index">
+	
+	<dataflow id="dataflow_generateStichedTileNormals" out="position, normal, texcoord, barycentric">
 		<script name="xflow.stichedGrid" src="operators/stichedGrid.js" type="text/javascript"></script>
+		<script name="xflow.deindex" src="operators/deindex-grid.js" type="text/javascript"></script>
 		<int name="lod" param="true" />
 		<int name="stitching" param="true" />
+		<float name="elevation" param="true" />
+		<float3 name="normal" param="true" />
 		<compute>
-			position, normal, texcoord, index = xflow.stichedGrid(lod,stitching);
+			position2, normal2, texcoord2, index = xflow.stichedGrid(lod,stitching,elevation);
+			position, normal, texcoord, barycentric = xflow.deindex(position2,normal,texcoord2, index);
 		</compute>
 	</dataflow>
-
 	
-	<dataflow id="dataflow_generateStichedTile" out="position, normal, texcoord, index">
+	
+	<dataflow id="dataflow_generateStichedTile" out="position, normal, texcoord, barycentric">
+		<script name="xflow.stichedGrid" src="operators/stichedGrid.js" type="text/javascript"></script>
+		<script name="xflow.deindex" src="operators/deindex-grid.js" type="text/javascript"></script>
+		<int name="lod" param="true" />
+		<int name="stitching" param="true" />
+		<float name="elevation" param="true" />
+		<compute>
+			position2, normal2, texcoord2, index = xflow.stichedGrid(lod,stitching,elevation);
+			position, normal, texcoord, barycentric = xflow.deindex(position2,normal2,texcoord2, index);
+		</compute>
+	</dataflow>
+	
+	
+	<!--
+	<dataflow id="dataflow_generateStichedTileNormals" out="position, texcoord, index">
 		<script name="xflow.stichedGrid" src="operators/stichedGrid.js" type="text/javascript"></script>
 		<int name="lod" param="true" />
 		<int name="stitching" param="true" />
@@ -109,6 +128,7 @@
 			position, normal, texcoord, index = xflow.stichedGrid(lod,stitching,elevation);
 		</compute>
 	</dataflow>
+	-->
 	
 	<!-- <dataflow id="dataflow_triangulate" out="position, index">
 		<float2 name="contour" param="true" />

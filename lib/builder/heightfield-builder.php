@@ -17,21 +17,28 @@ class HeightfieldBuilder extends GeometryBuilder
 	public function generate($asset, $vertices, $options = array())
 	{
 		$mesh = $asset->addAssetMesh();
-		$mesh->setShader($this->shader->getReference('terrain'));
+		//$mesh->setShader($this->shader->getReference('terrain'));
 		$mesh->setMeshtype('triangles');
 		$mesh->setName('terrain_shaded');
 		$mesh->setIncludes('terrain_morph');
 		
-		if ($options['vertex-normals']) {
-			$mesh->addChild(new Float3('normal', $options['normals']));
-			
-		}
 		$data = $asset->addAssetData();
-		$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTile') . "']");
+		
+		//todo: make dataflow work for no normals input!
+		
+		
 		$data->setName('terrain_morph');
 		$data->addChild(new Float('elevation', $vertices));
 		$data->addChild(new Int('lod', [$options['lod']]));
 		$data->addChild(new Int('stitching', [0,0,0,0]));
+		if ($options['vertex-normals']) {
+			$data->addChild(new Float3('normal', $options['normals']));
+			$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileNormals') . "']");
+		}
+		else{
+			$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTile') . "']");
+		}
+		
 		
 		/*
 		$mesh->setShader($this->shader->getReference('terrain'));
