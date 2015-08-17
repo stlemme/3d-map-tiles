@@ -36,20 +36,38 @@
   "terrain" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 30
+      "cache" : 600
     },
+	"mesh":{
+		"lod":6
+	},
 	"texture":{
-		"normalmap-lod" : 6
+		"normalmap-lod" : 8
 	}
   },
   
     "terrain-vertex-normals" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 30,
+      "cache" : 600,
 	  "mesh":{
+		"lod":6,
 	    "vertex-normals": true,
-		"vertex-normals-lod":14
+		"vertex-normals-lod":11,
+		"shaded":true
+	  }
+    }
+  },
+  
+    "terrain-wireframe" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 600,
+	  "mesh":{
+		"lod":6,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":false
 	  }
     }
   },

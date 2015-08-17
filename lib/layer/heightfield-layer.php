@@ -35,13 +35,15 @@ class HeightfieldLayer extends TerrainLayer
 		$options = array(
 			//'dimensions' => $this->adapter->size(),
 			'lod' => $this->params['lod'],
+			'shaded' => $this->params['shaded'],
 			'vertex-normals' => $this->useVertexNormals,
-			'normals'=> $this->adapter->normals()
+			'normals'=> $this->adapter->normals(),
+			'texture'=>$this->getTextureReference($this->diffuse, 'normal')
 		);
 		$this->builder->generate($asset, $vertices, $options);
 		
-		if (!$this->useVertexNormals)
-			$mesh->addChild($this->getTextureReference($this->diffuse, 'normal')); // $this->normal));
+		//if (!$this->useVertexNormals)
+			//$mesh->addChild($this->getTextureReference($this->diffuse, 'normal')); // $this->normal));
 	}
 }
 

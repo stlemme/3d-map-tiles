@@ -17,10 +17,13 @@ class HeightfieldBuilder extends GeometryBuilder
 	public function generate($asset, $vertices, $options = array())
 	{
 		$mesh = $asset->addAssetMesh();
-		//$mesh->setShader($this->shader->getReference('terrain'));
+		if($options['shaded']==true){
+			$mesh->setShader($this->shader->getReference('terrain'));
+		}
 		$mesh->setMeshtype('triangles');
 		$mesh->setName('terrain_shaded');
 		$mesh->setIncludes('terrain_morph');
+		
 		
 		$data = $asset->addAssetData();
 		
@@ -33,10 +36,17 @@ class HeightfieldBuilder extends GeometryBuilder
 		$data->addChild(new Int('stitching', [0,0,0,0]));
 		if ($options['vertex-normals']) {
 			$data->addChild(new Float3('normal', $options['normals']));
-			$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileNormals') . "']");
+			if($options['shaded']==false){
+				$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileWireframe') . "']");
+			}
+			else{
+				$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileNormals') . "']");
+			}
 		}
 		else{
+			$mesh->addChild($options['texture']);
 			$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTile') . "']");
+			
 		}
 		
 		

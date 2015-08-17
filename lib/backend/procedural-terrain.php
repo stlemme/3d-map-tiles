@@ -94,7 +94,8 @@ class ProceduralTerrain extends LayeredBackend
 		$params = array(
 			'lod' => $this->config('mesh.lod'),
 			'vertex-normals'=> $this->config('mesh.vertex-normals'),
-			'vertex-normals-lod'=> $this->config('mesh.vertex-normals-lod')
+			'vertex-normals-lod'=> $this->config('mesh.vertex-normals-lod'),
+			'shaded'=> $this->config('mesh.shaded')
 		);
 		
 		return new HeightfieldLayer(
@@ -109,11 +110,12 @@ class ProceduralTerrain extends LayeredBackend
 			'mesh' => array(
 				'lod' => 4,
 				'vertex-normals' => false,
-				'vertex-normals-lod'=> 16
+				'vertex-normals-lod'=> 16,
+				'shaded'=>true
 			),
 			'texture' => array(
 				'preference' => 'png',
-				'normalmap-lod' => 8
+				'normalmap-lod' => 7
 			),
 			'seed' => 2000
 		);
