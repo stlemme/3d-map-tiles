@@ -36,14 +36,15 @@
   "terrain" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 600
-    },
-	"mesh":{
+      "cache" : 600,
+	  "mesh":{
 		"lod":6
-	},
-	"texture":{
+		},
+	  "texture":{
 		"normalmap-lod" : 8
-	}
+		}
+    }
+	
   },
   
     "terrain-vertex-normals" : {
