@@ -125,7 +125,76 @@
 		</compute>
 	</dataflow>
 	
+	<data id="grid_6" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 6 </int>
+	</data>
 	
+	<data id="grid_6_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 6 </int>
+	</data>
+	
+	<dataflow id="dataflow_generateStaticGrid" out="position, normal, texcoord, index">
+		<script name="xflow.vertexGrid" src="operators/vertexGrid.js" type="text/javascript"></script>
+		<script name="xflow.gridCenterIndex" src="operators/gridCenterIndex.js" type="text/javascript"></script>
+		<int name="lod" param="true" />
+		<compute>
+			position, normal, texcoord = xflow.vertexGrid(lod);
+			index = xflow.gridCenterIndex(lod);
+		</compute>
+	</dataflow>
+	
+	<dataflow id="dataflow_generateVertexGrid" out="position, normal, texcoord">
+		<script name="xflow.vertexGrid" src="operators/vertexGrid.js" type="text/javascript"></script>
+		<script name="xflow.gridCenterIndex" src="operators/gridCenterIndex.js" type="text/javascript"></script>
+		<int name="lod" param="true" />
+		<compute>
+			position, normal, texcoord = xflow.vertexGrid(lod);
+		</compute>
+	</dataflow>
+	
+	<dataflow id="dataflow_generateDynamicGridWireframe" out="position,normal,texcoord,barycentric">
+	<script name="xflow.gridCenterIndex" src="operators/gridCenterIndex.js" type="text/javascript"></script>
+	<script name="xflow.gridDisplace" src="operators/gridDisplace.js" type="text/javascript"></script>
+	<script name="xflow.gridBorderIndex" src="operators/gridBorderIndex.js" type="text/javascript"></script>
+	<script name="xflow.mergeIndex" src="operators/mergeIndex.js" type="text/javascript"></script>
+	<script name="xflow.deindex" src="operators/deindex-grid.js" type="text/javascript"></script>
+	<int name="lod" param="true" />
+	<float3 name="in_position" param="true" />
+	<float name="elevation" param="true" />
+	<int name="stitching" param="true" />
+	<float3 name="normal" param="true" />
+	<float2 name="texcoord" param="true" />
+		<compute>
+			index1 = xflow.gridCenterIndex(lod);
+			index2 = xflow.gridBorderIndex(lod,stitching);
+			index3 = xflow.mergeIndex(index1,index2);
+			position2 = xflow.gridDisplace(in_position,elevation);
+			position, normal, texcoord, barycentric = xflow.deindex(position2,normal,texcoord, index3);
+		</compute>
+	</dataflow>
+	
+	<dataflow id="dataflow_generateDynamicGrid" out="position, index">
+	<script name="xflow.gridDisplace" src="operators/gridDisplace.js" type="text/javascript"></script>
+	<script name="xflow.gridBorderIndex" src="operators/gridBorderIndex.js" type="text/javascript"></script>
+	<script name="xflow.mergeIndex" src="operators/mergeIndex.js" type="text/javascript"></script>
+	<int name="lod" param="true" />
+	<float3 name="in_position" param="true" />
+	<int name="in_index" param="true" />
+	<float name="elevation" param="true" />
+	<int name="stitching" param="true" />
+		<compute>
+			index2 = xflow.gridBorderIndex(lod,stitching);
+			index = xflow.mergeIndex(in_index,index2);
+			position = xflow.gridDisplace(in_position,elevation);
+		</compute>
+	</dataflow>
+	
+	
+	<!--
+	<data id="grid_6" compute="dataflow['#dataflow_generateStaticGrid']>
+		<int name="lod"> 6 </int>
+	</data>
+	-->
 	<!-- <dataflow id="dataflow_triangulate" out="position, index">
 		<float2 name="contour" param="true" />
 		<float3 name="delta">0 0.1 0</float3>

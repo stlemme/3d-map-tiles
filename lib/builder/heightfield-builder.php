@@ -34,18 +34,26 @@ class HeightfieldBuilder extends GeometryBuilder
 		$data->addChild(new Float('elevation', $vertices));
 		$data->addChild(new Int('lod', [$options['lod']]));
 		$data->addChild(new Int('stitching', [0,0,0,0]));
+		$static_tile=$data->addData();
+		
+		
+		//todo: no hardcoding!
 		if ($options['vertex-normals']) {
 			$data->addChild(new Float3('normal', $options['normals']));
 			if($options['shaded']==false){
-				$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileWireframe') . "']");
+				$static_tile->setSrc('http://127.0.0.1/api/3d-map-tiles/basic.xml#grid_6_vertex');
+				$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGridWireframe') . "'](lod,position,elevation,stitching,normal,texcoord)");
+				//$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileWireframe') . "']");
 			}
 			else{
-				$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileNormals') . "']");
+				$static_tile->setSrc('http://127.0.0.1/api/3d-map-tiles/basic.xml#grid_6');
+				$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGrid') . "'](lod,position,index,elevation,stitching)");
+				//$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTileNormals') . "']");
 			}
 		}
 		else{
 			$mesh->addChild($options['texture']);
-			$data->compute("dataflow['" . $this->dataflow->getReference('generateStichedTile') . "']");
+			$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGrid') . "'](lod,position,index,elevation,stitching)");
 			
 		}
 		

@@ -248,6 +248,11 @@ class Data extends XmlElement
 	public function addAssetData($src = null) {
 		return $this->addChild(new AssetData($src));
 	}
+	
+	public function setSrc($src) {
+		$this->attributes['src'] = $src;
+	}
+	
 }
 
 class AssetData extends XmlElement

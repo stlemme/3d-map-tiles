@@ -36,7 +36,7 @@
   "terrain" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 600,
+      "cache" : 6,
 	  "mesh":{
 		"lod":6
 		},
@@ -50,7 +50,7 @@
     "terrain-vertex-normals" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 600,
+      "cache" : 6,
 	  "mesh":{
 		"lod":6,
 	    "vertex-normals": true,
@@ -63,7 +63,7 @@
     "terrain-wireframe" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 600,
+      "cache" : 6,
 	  "mesh":{
 		"lod":6,
 	    "vertex-normals": true,
