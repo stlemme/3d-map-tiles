@@ -57,47 +57,69 @@ Xflow.registerOperator("xflow.gridBorderIndex", {
 		else{
 			//stitching
 			
+			var d=Math.pow(2,stitching[0]-1);
+			
 			//first triangles
 			
 			//large triangle
 			index[offset++]=0;
-			index[offset++]=2*dimensions;
-			index[offset++]=dimensions+1;
+			index[offset++]=2*d*dimensions;
+			index[offset++]=d*dimensions+1;
 			
-			//small triangle
-			index[offset++]=2*dimensions;
-			index[offset++]=2*dimensions+1;
-			index[offset++]=dimensions+1;
-			
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=2*d*dimensions;
+				index[offset++]=(d+i+1)*dimensions+1;
+				index[offset++]=(d+i)*dimensions+1;
+			}
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=0;
+				index[offset++]=(i+1)*dimensions+1;
+				index[offset++]=(i)*dimensions+1;
+			}
 			//last triangles
 			
 			//large triangle
-			index[offset++]=dimensions*(dimensions-3);
+			index[offset++]=dimensions*(dimensions-1-2*d);
 			index[offset++]=dimensions*(dimensions-1);
-			index[offset++]=dimensions*(dimensions-2)+1;
+			index[offset++]=dimensions*(dimensions-1-d)+1;
 			
-			//small triangle
-			index[offset++]=dimensions*(dimensions-3);
-			index[offset++]=dimensions*(dimensions-2)+1;
-			index[offset++]=dimensions*(dimensions-3)+1;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=dimensions*(dimensions-1-2*d);
+				index[offset++]=dimensions*(dimensions-1-d-i)+1;
+				index[offset++]=dimensions*(dimensions-1-d-i-1)+1;
+			}
+			
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=dimensions*(dimensions-1);
+				index[offset++]=dimensions*(dimensions-1-i)+1;
+				index[offset++]=dimensions*(dimensions-1-i-1)+1;
+			}
 			
 			//everything in-between
-			for(var y=2;y<=dimensions-5;y+=2){
+			for(var y=2*d;y<=dimensions-4*d-1;y+=2*d){
 			
 				//large triangle
 				index[offset++]=y*dimensions;
-				index[offset++]=(y+2)*dimensions;
-				index[offset++]=(y+1)*dimensions+1;
+				index[offset++]=(y+2*d)*dimensions;
+				index[offset++]=(y+d)*dimensions+1;
 			
-				//small triangle
-				index[offset++]=y*dimensions;
-				index[offset++]=(y+1)*dimensions+1;
-				index[offset++]=y*dimensions+1;
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=y*dimensions;
+					index[offset++]=(y+1+i)*dimensions+1;
+					index[offset++]=(y+i)*dimensions+1;
+				}
 			
-				//small triangle
-				index[offset++]=(y+1)*dimensions+1;
-				index[offset++]=(y+2)*dimensions;
-				index[offset++]=(y+2)*dimensions+1;
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=(y+d+i)*dimensions+1;
+					index[offset++]=(y+2*d)*dimensions;
+					index[offset++]=(y+d+1+i)*dimensions+1;
+				}
 			}
 		}
 
@@ -124,46 +146,70 @@ Xflow.registerOperator("xflow.gridBorderIndex", {
 		else{
 			//stitching
 			
+			var d=Math.pow(2,stitching[1]-1);
+			
 			//first triangles
 			
 			//large triangle
 			index[offset++]=dimensions*(dimensions-1);
-			index[offset++]=dimensions*(dimensions-1)+2;
-			index[offset++]=dimensions*(dimensions-2)+1;
+			index[offset++]=dimensions*(dimensions-1)+2*d;
+			index[offset++]=dimensions*(dimensions-2)+d;
 			
-			//small triangle
-			index[offset++]=dimensions*(dimensions-2)+1;
-			index[offset++]=dimensions*(dimensions-1)+2;
-			index[offset++]=dimensions*(dimensions-2)+2;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=dimensions*(dimensions-2)+d+i;
+				index[offset++]=dimensions*(dimensions-1)+2*d;
+				index[offset++]=dimensions*(dimensions-2)+d+i+1;
+			}
 			
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=dimensions*(dimensions-2)+i;
+				index[offset++]=dimensions*(dimensions-1);
+				index[offset++]=dimensions*(dimensions-2)+i+1;
+			}
 			//last triangles
 			
 			//large triangle
 			index[offset++]=dimensions*dimensions-1;
-			index[offset++]=dimensions*(dimensions-1)-2;
-			index[offset++]=dimensions*dimensions-3;
-			//small triangle
-			index[offset++]=dimensions*dimensions-3;
-			index[offset++]=dimensions*(dimensions-1)-2;
-			index[offset++]=dimensions*(dimensions-1)-3;
+			index[offset++]=dimensions*(dimensions-1)-1-d;
+			index[offset++]=dimensions*dimensions-1-2*d;
+			
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=dimensions*dimensions-1-2*d;
+				index[offset++]=dimensions*(dimensions-1)-1-2*d+i+1;
+				index[offset++]=dimensions*(dimensions-1)-1-2*d+i;
+			}
+			
+			//additional triangle(s)
+			for(var i=0;i<d-1;i++){
+				index[offset++]=dimensions*dimensions-1;
+				index[offset++]=dimensions*(dimensions-1)-1-d+i+1;
+				index[offset++]=dimensions*(dimensions-1)-1-d+i;
+			}
 			
 			//everything in-between
-			for(var x=2;x<=dimensions-5;x+=2){
+			for(var x=2*d;x<=dimensions-4*d-1;x+=2*d){
 				
 				//large triangle
 				index[offset++]=dimensions*(dimensions-1)+x;
-				index[offset++]=dimensions*(dimensions-1)+2+x;
-				index[offset++]=dimensions*(dimensions-2)+1+x;
+				index[offset++]=dimensions*(dimensions-1)+2*d+x;
+				index[offset++]=dimensions*(dimensions-2)+d+x;
 			
-				//small triangle
-				index[offset++]=dimensions*(dimensions-1)+x;
-				index[offset++]=dimensions*(dimensions-2)+1+x;
-				index[offset++]=dimensions*(dimensions-2)+x;
-			
-				//small triangle
-				index[offset++]=dimensions*(dimensions-2)+1+x;
-				index[offset++]=dimensions*(dimensions-1)+2+x;
-				index[offset++]=dimensions*(dimensions-2)+2+x;
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=dimensions*(dimensions-1)+x;
+					index[offset++]=dimensions*(dimensions-2)+1+x+i;
+					index[offset++]=dimensions*(dimensions-2)+x+i;
+				}
+				
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=dimensions*(dimensions-2)+d+x+i;
+					index[offset++]=dimensions*(dimensions-1)+2*d+x;
+					index[offset++]=dimensions*(dimensions-2)+d+1+x+i;
+				}
 			}
 		}
 		
@@ -189,47 +235,70 @@ Xflow.registerOperator("xflow.gridBorderIndex", {
 		else{
 			//stitching
 			
+			var d=Math.pow(2,stitching[2]-1);
+			
 			//first triangles
 			
 			//large triangle
 			index[offset++]=dimensions*dimensions-1;
-			index[offset++]=dimensions*(dimensions-2)-1;
-			index[offset++]=dimensions*(dimensions-1)-2;
+			index[offset++]=dimensions*(dimensions-2*d)-1;
+			index[offset++]=dimensions*(dimensions-d)-2;
 			
-			//small triangle
-			index[offset++]=dimensions*(dimensions-1)-2;
-			index[offset++]=dimensions*(dimensions-2)-1;
-			index[offset++]=dimensions*(dimensions-2)-2;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=dimensions*(dimensions-2*d+i+1)-2;
+				index[offset++]=dimensions*(dimensions-2*d)-1;
+				index[offset++]=dimensions*(dimensions-2*d+i)-2;
+			}
+			
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=dimensions*(dimensions-i)-2;
+				index[offset++]=dimensions*(dimensions)-1;
+				index[offset++]=dimensions*(dimensions-i-1)-2;
+			}
 			
 			//last triangles
 			
 			//large triangle
 			index[offset++]=dimensions-1;
-			index[offset++]=2*dimensions-2;
-			index[offset++]=3*dimensions-1;
+			index[offset++]=(1+d)*dimensions-2;
+			index[offset++]=(1+2*d)*dimensions-1;
 			
-			//small triangle
-			index[offset++]=3*dimensions-1;
-			index[offset++]=2*dimensions-2;
-			index[offset++]=3*dimensions-2;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=(1+2*d)*dimensions-1;
+				index[offset++]=(1+d+i)*dimensions-2;
+				index[offset++]=(1+d+i+1)*dimensions-2;
+			}
+			
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=dimensions-1;
+				index[offset++]=(1+i)*dimensions-2;
+				index[offset++]=(1+i+1)*dimensions-2;
+			}
 			
 			//everything in-between
-			for(var y=2;y<=dimensions-5;y+=2){
+			for(var y=2*d;y<=dimensions-4*d-1;y+=2*d){
 			
 				//large triangle
 				index[offset++]=(y+1)*dimensions-1;
-				index[offset++]=(y+2)*dimensions-2;
-				index[offset++]=(y+3)*dimensions-1;
+				index[offset++]=(y+1+d)*dimensions-2;
+				index[offset++]=(y+1+2*d)*dimensions-1;
 				
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=(y+1+i+1)*dimensions-2;
+					index[offset++]=(y+1)*dimensions-1;
+					index[offset++]=(y+1+i)*dimensions-2;
+				}
 				//small triangle
-				index[offset++]=(y+2)*dimensions-2;
-				index[offset++]=(y+1)*dimensions-1;
-				index[offset++]=(y+1)*dimensions-2;
-				
-				//small triangle
-				index[offset++]=(y+3)*dimensions-1;
-				index[offset++]=(y+2)*dimensions-2;
-				index[offset++]=(y+3)*dimensions-2;
+				for(var i=0;i<d;i++){
+					index[offset++]=(y+1+2*d)*dimensions-1;
+					index[offset++]=(y+1+d+i)*dimensions-2;
+					index[offset++]=(y+1+d+i+1)*dimensions-2;
+				}
 			}
 		}
 		
@@ -257,47 +326,70 @@ Xflow.registerOperator("xflow.gridBorderIndex", {
 		else{
 			//stitching
 			
+			var d=Math.pow(2,stitching[3]-1);
+			
 			//first triangles
 			
 			//large triangle
 			index[offset++]=0;
-			index[offset++]=dimensions+1;
-			index[offset++]=2;
+			index[offset++]=dimensions+d;
+			index[offset++]=2*d;
 			
-			//small triangle
-			index[offset++]=2;
-			index[offset++]=dimensions+1;
-			index[offset++]=dimensions+2;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=2*d;
+				index[offset++]=dimensions+d+i;
+				index[offset++]=dimensions+d+i+1;
+			}
+			
+			//additional triangle(s)
+			for(var i=1;i<d;i++){
+				index[offset++]=0;
+				index[offset++]=dimensions+i;
+				index[offset++]=dimensions+i+1;
+			}
 			
 			//last triangles
 			
 			//large triangle
 			index[offset++]=dimensions-1;
-			index[offset++]=dimensions-3;
-			index[offset++]=2*dimensions-2;
+			index[offset++]=dimensions-1-2*d;
+			index[offset++]=2*dimensions-1-d;
 			
-			//small triangle
-			index[offset++]=2*dimensions-2;
-			index[offset++]=dimensions-3;
-			index[offset++]=2*dimensions-3;
+			//small triangle(s)
+			for(var i=0;i<d;i++){
+				index[offset++]=2*dimensions-1-2*d+i+1;
+				index[offset++]=dimensions-1-2*d;
+				index[offset++]=2*dimensions-1-2*d+i;
+			}
+			
+			//additional triangle(s)
+			for(var i=0;i<d-1;i++){
+				index[offset++]=2*dimensions-1-d+i+1;
+				index[offset++]=dimensions-1;
+				index[offset++]=2*dimensions-1-d+i;
+			}
 			
 			//everything in-between
-			for(var x=2;x<=dimensions-5;x+=2){
+			for(var x=2*d;x<=dimensions-4*d-1;x+=2*d){
 			
 				//large triangle
 				index[offset++]=x;
-				index[offset++]=dimensions+1+x;
-				index[offset++]=2+x;
+				index[offset++]=dimensions+d+x;
+				index[offset++]=2*d+x;
 			
-				//small triangle
-				index[offset++]=2+x;
-				index[offset++]=dimensions+1+x;
-				index[offset++]=dimensions+2+x;
-
-				//small triangle
-				index[offset++]=dimensions+1+x;
-				index[offset++]=x;
-				index[offset++]=dimensions+x;
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=2*d+x;
+					index[offset++]=dimensions+d+x+i;
+					index[offset++]=dimensions+d+1+x+i;
+				}
+				//small triangle(s)
+				for(var i=0;i<d;i++){
+					index[offset++]=dimensions+1+x+i;
+					index[offset++]=x;
+					index[offset++]=dimensions+x+i;
+				}
 			}
 		}
 		
