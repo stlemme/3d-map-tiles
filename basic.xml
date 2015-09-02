@@ -125,12 +125,60 @@
 		</compute>
 	</dataflow>
 	
-	<data id="grid_6" compute="dataflow['#dataflow_generateStaticGrid']">
+	<data id="data_grid_6" compute="dataflow['#dataflow_generateStaticGrid']">
 		<int name="lod"> 6 </int>
 	</data>
 	
-	<data id="grid_6_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+	<data id="data_grid_6_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
 		<int name="lod"> 6 </int>
+	</data>
+	
+	<data id="data_grid_7" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 7 </int>
+	</data>
+	
+	<data id="data_grid_7_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 7 </int>
+	</data>
+	
+	<data id="data_grid_8" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 8 </int>
+	</data>
+	
+	<data id="data_grid_8_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 8 </int>
+	</data>
+	
+	<data id="data_grid_9" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 9 </int>
+	</data>
+	
+	<data id="data_grid_9_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 9 </int>
+	</data>
+	
+	<data id="data_grid_5" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 5 </int>
+	</data>
+	
+	<data id="data_grid_5_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 5 </int>
+	</data>
+	
+	<data id="data_grid_4" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 4 </int>
+	</data>
+	
+	<data id="data_grid_4_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 4 </int>
+	</data>
+	
+	<data id="data_grid_3" compute="dataflow['#dataflow_generateStaticGrid']">
+		<int name="lod"> 3 </int>
+	</data>
+	
+	<data id="data_grid_3_vertex" compute="dataflow['#dataflow_generateVertexGrid']">
+		<int name="lod"> 3 </int>
 	</data>
 	
 	<dataflow id="dataflow_generateStaticGrid" out="position, normal, texcoord, index">

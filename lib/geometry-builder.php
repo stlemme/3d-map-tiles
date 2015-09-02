@@ -14,6 +14,7 @@ abstract class GeometryBuilder
 		$this->shader = new ShaderResolver($uriResolver);
 		$this->dataflow = new DataFlowResolver($uriResolver);
 		$this->mesh = new MeshResolver($uriResolver);
+		$this->data = new DataResolver($uriResolver);
 	}
 	
 	public abstract function generate($mesh, $vertices, $options = array());

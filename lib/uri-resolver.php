@@ -79,5 +79,14 @@ class DataflowResolver extends BasicXmlResolver
 	}
 }
 
+class DataResolver extends BasicXmlResolver
+{
+	private static $type = 'data';
+	
+	public function getReference($name) {
+		return $this->getBasicReference(self::$type, $name);
+	}
+}
+
 
 ?>
