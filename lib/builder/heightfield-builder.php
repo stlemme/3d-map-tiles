@@ -38,9 +38,13 @@ class HeightfieldBuilder extends GeometryBuilder
 			$data->addChild(new Float3('normal', $options['normals']));
 			if($options['shaded']==false){
 				$static_tile->setSrc($this->data->getReference('grid_'.$options['lod'].'_vertex'));
+				//$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGridWireframeSimple') . "'](lod,position,elevation,stitching,normal,texcoord)");
 				$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGridWireframe') . "'](lod,position,elevation,stitching,normal,texcoord)");
 			}
 			else{
+				//$static_tile->setSrc($this->data->getReference('grid_'.$options['lod'].'_vertex'));
+				//$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGridWireframeSimple') . "'](lod,position,elevation,stitching,normal,texcoord)");
+
 				$static_tile->setSrc($this->data->getReference('grid_'.$options['lod']));
 				$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGrid') . "'](lod,position,index,elevation,stitching)");
 			}
