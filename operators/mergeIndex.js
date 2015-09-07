@@ -15,17 +15,8 @@ Xflow.registerOperator("xflow.mergeIndex", {
         sizes['index'] = index1.length+index2.length;
     },
     evaluate: function(index,index1,index2) {
-	
-		//memcopy/copy
-	
-		for(var i=0;i<index1.length;i++){
-			index[i]=index1[i];
-		}
-		
-		for(var i=0;i<index2.length;i++){
-			index[index1.length+i]=index2[i];
-		}
-		
+		index.set(index1);
+		index.set(index2,index1.length);
 	}
 });
 
