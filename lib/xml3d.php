@@ -411,6 +411,13 @@ class Texture extends XmlElement
 	protected function tagName() {
 		return 'texture';
 	}
+	
+	public function setName($name) {
+		if ($name === null)
+			return;
+		$this->attributes['name'] = $name;
+	}
+	
 }
 
 class Xml3d extends Group

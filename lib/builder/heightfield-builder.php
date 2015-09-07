@@ -29,7 +29,7 @@ class HeightfieldBuilder extends GeometryBuilder
 		
 		$data->setName('terrain_morph');
 		$data->addChild(new Float('elevation', $vertices));
-		$data->addChild(new Int('lod', [$options['lod']]));
+		//$data->addChild(new Int('lod', [$options['lod']]));
 		$data->addChild(new Int('stitching', [0,0,0,0]));
 		$static_tile=$data->addData();
 		
@@ -50,7 +50,9 @@ class HeightfieldBuilder extends GeometryBuilder
 			}
 		}
 		else{
-			$mesh->addChild($options['texture']);
+			$texture=$mesh->addChild($options['texture']);
+			$texture->setName('normalMap');
+			$static_tile->setSrc($this->data->getReference('grid_'.$options['lod']));
 			$data->compute("dataflow['" . $this->dataflow->getReference('generateDynamicGrid') . "'](lod,position,index,elevation,stitching)");
 			
 		}
