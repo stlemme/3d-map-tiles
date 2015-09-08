@@ -36,8 +36,8 @@ class ProceduralAdapter extends Adapter
 
 		$bbox = $this->tile_bounds();
 		
-		if($params['vertex-normals']==true){
-			$this->sample3dSphereNormals($bbox,$params['vertex-normals-lod']);
+		if ($params['vertex-normals']) {
+			$this->sample3dSphereNormals($bbox, $params['vertex-normals-lod']);
 		}
 		
 		$this->sample3dSphere($bbox);
@@ -76,7 +76,7 @@ class ProceduralAdapter extends Adapter
 		}
 	}
 	
-	private function sample3dSphereNormals($bbox,$lod) {
+	private function sample3dSphereNormals($bbox, $lod) {
 	
 		//distance in tile space if tile is 1 unit square between 2 sample points spanning vectors for cross product
 		$tile_space_distance=pow(2,($this->z+1))/(($this->size-1)*pow(2,$lod));
