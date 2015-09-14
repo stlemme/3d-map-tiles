@@ -86,7 +86,27 @@ class ProceduralTerrain extends LayeredBackend
 	
 	
 	///////////////////////////////////////////////////////////////////////////
-	
+	public function getAssetData()
+	{
+		$xml3d = new Xml3d();
+		
+		$defs = $xml3d->addDefs();
+
+		$tf = $defs->addTransform($this->x . ' 0 ' . $this->y);
+		$tf->setId('tf');
+
+		$all_assets = $xml3d->addAsset("all");
+
+		foreach($this->layers as $name => $layer) {
+			$asset = $all_assets->addAsset($name);
+			$asset->setName($name);
+			$layer->generate($asset);
+		}
+		$data=$defs->addData();
+		$data->setId('meta-data');
+		$data->addChild(new Float('errormetric', [$this->terrain->metric()]));
+		return $xml3d;
+	}
 	
 	protected function getGround()
 	{

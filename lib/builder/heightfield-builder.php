@@ -16,6 +16,11 @@ class HeightfieldBuilder extends GeometryBuilder
 	
 	public function generate($asset, $vertices, $options = array())
 	{
+		/*
+		$defs = $asset->addDefs();
+		$defs->setId('meta-data');
+		$defs->addChild(new Float('errormetric', [$options['metric']]));
+		*/
 		$mesh = $asset->addAssetMesh();
 		if($options['shaded']==true){
 			$mesh->setShader($this->shader->getReference('terrain'));

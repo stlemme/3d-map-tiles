@@ -12,6 +12,7 @@ class ProceduralAdapter extends Adapter
 	protected $size;
 	protected $data;
 	protected $normals;
+	protected $errorMetric;
 	
 	
 	protected $perlin;
@@ -41,7 +42,13 @@ class ProceduralAdapter extends Adapter
 		}
 		
 		$this->sample3dSphere($bbox);
+		
+		$this->errorMetric=$this->calculateErrorMetric($bbox);
 
+	}
+	
+	public function metric() {
+		return $this->errorMetric;
 	}
 	
 	public function size() {
@@ -59,6 +66,50 @@ class ProceduralAdapter extends Adapter
 	
 	public function normals() {
 		return $this->normals;
+	}
+	
+	private function calculateErrorMetric($bbox){
+		$error=0;
+		//x direction
+		for ($i=0;$i<16;$i++){
+			$x= rand(1,$this->size-3);
+			$y= rand(1,$this->size-3);
+			
+			$v1=$this->data[$x+$y*$this->size];
+			$v2=$this->data[$x+1+$y*$this->size];
+			
+			$s = ($x+0.5) / ($this->size-1);
+			$t = $y / ($this->size-1);
+				
+			//linear interpolation + deg2rad
+			$phi= ($s*$bbox[2]+(1-$s)*$bbox[0])* 0.017453292519943295;
+			$omega= ($t*$bbox[1]+(1-$t)*$bbox[3])* 0.017453292519943295;
+
+			$interpolated = $this->getSample3d($omega,$phi);
+			
+			$error=max($error,abs((($v1+$v2)/2)-$interpolated));
+		}
+		
+		//y direction
+		for ($i=0;$i<16;$i++){
+			$x= rand(1,$this->size-3);
+			$y= rand(1,$this->size-3);
+			
+			$v1=$this->data[$x+$y*$this->size];
+			$v2=$this->data[$x+($y+1)*$this->size];
+			
+			$s = $x / ($this->size-1);
+			$t = ($y+0.5) / ($this->size-1);
+				
+			//linear interpolation + deg2rad
+			$phi= ($s*$bbox[2]+(1-$s)*$bbox[0])* 0.017453292519943295;
+			$omega= ($t*$bbox[1]+(1-$t)*$bbox[3])* 0.017453292519943295;
+
+			$interpolated = $this->getSample3d($omega,$phi);
+			
+			$error=max($error,abs((($v1+$v2)/2)-$interpolated));
+		}
+		return $error;
 	}
 	
 	private function sample3dSphere($bbox) {

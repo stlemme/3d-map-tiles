@@ -90,6 +90,10 @@ class Defs extends XmlElement
 	protected function tagName() {
 		return 'defs';
 	}
+	
+	public function addData($src = null) {
+		return $this->addChild(new Data($src));
+	}
 }
 
 class Transform extends XmlElement
@@ -127,6 +131,10 @@ class Asset extends XmlElement
 	
 	public function addAssetData($src = null) {
 		return $this->addChild(new AssetData($src));
+	}
+	
+	public function addDefs() {
+		return $this->addChild(new Defs());
 	}
 	
 	public function setName($name) {
@@ -169,7 +177,7 @@ class AssetMesh extends XmlElement
 	public function setShader($shader) {
 		if ($shader === null)
 			return;
-		$this->attributes['shader'] = $shader;
+		$this->attributes['material'] = $shader;
 	}
 	
 	public function setName($name) {

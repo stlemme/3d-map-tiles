@@ -54,7 +54,7 @@ class BasicXmlResolver extends DependentUriResolver
 
 class ShaderResolver extends BasicXmlResolver
 {
-	private static $type = 'shader';
+	private static $type = 'material';
 	
 	public function getReference($name) {
 		return $this->getBasicReference(self::$type, $name);
