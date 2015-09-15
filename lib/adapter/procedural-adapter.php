@@ -71,7 +71,7 @@ class ProceduralAdapter extends Adapter
 	private function calculateErrorMetric($bbox){
 		$error=0;
 		//x direction
-		for ($i=0;$i<16;$i++){
+		for ($i=0;$i<32;$i++){
 			$x= rand(1,$this->size-3);
 			$y= rand(1,$this->size-3);
 			
@@ -91,7 +91,7 @@ class ProceduralAdapter extends Adapter
 		}
 		
 		//y direction
-		for ($i=0;$i<16;$i++){
+		for ($i=0;$i<32;$i++){
 			$x= rand(1,$this->size-3);
 			$y= rand(1,$this->size-3);
 			
