@@ -38,11 +38,11 @@
     "config" : {
       "cache" : 600,
 	  "mesh":{
-		"lod":6,
+		"lod":5,
 		"shaded":false
 		},
 	  "texture":{
-		"normalmap-lod" : 8
+		"normalmap-lod" : 7
 		}
     }
 	
@@ -53,7 +53,7 @@
     "config" : {
       "cache" : 6,
 	  "mesh":{
-		"lod":6,
+		"lod":5,
 	    "vertex-normals": true,
 		"vertex-normals-lod":11,
 		"shaded":true
@@ -66,7 +66,7 @@
     "config" : {
       "cache" : 6,
 	  "mesh":{
-		"lod":6,
+		"lod":5,
 	    "vertex-normals": true,
 		"vertex-normals-lod":11,
 		"shaded":false
