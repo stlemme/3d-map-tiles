@@ -102,9 +102,11 @@ class ProceduralTerrain extends LayeredBackend
 			$asset->setName($name);
 			$layer->generate($asset);
 		}
-		$data=$defs->addData();
-		$data->setId('meta-data');
-		$data->addChild(new Float('errormetric', [$this->terrain->metric()]));
+		if($this->config('calculate-error-metric')){
+			$data=$defs->addData();
+			$data->setId('meta-data');
+			$data->addChild(new Float('errormetric', [$this->terrain->metric()]));
+		}
 		return $xml3d;
 	}
 	
@@ -116,6 +118,7 @@ class ProceduralTerrain extends LayeredBackend
 			'lod' => $this->config('mesh.lod'),
 			'vertex-normals'=> $this->config('mesh.vertex-normals'),
 			'vertex-normals-lod'=> $this->config('mesh.vertex-normals-lod'),
+			'calculate-error-metric'=>$this->config('calculate-error-metric'),
 			'shaded'=> $this->config('mesh.shaded')
 		);
 		
@@ -132,13 +135,14 @@ class ProceduralTerrain extends LayeredBackend
 				'lod' => 4,
 				'vertex-normals' => false,
 				'vertex-normals-lod'=> 16,
-				'shaded'=>true
+				'shaded'=> true
 			),
 			'texture' => array(
 				'preference' => 'png',
 				'normalmap-lod' => 7
 			),
-			'seed' => 2000
+			'seed' => 2000,
+			'calculate-error-metric' => true
 		);
 		
 		return array_replace_recursive(parent::defaultConfig(), $config);

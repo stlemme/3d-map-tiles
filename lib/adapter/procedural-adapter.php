@@ -12,7 +12,7 @@ class ProceduralAdapter extends Adapter
 	protected $size;
 	protected $data;
 	protected $normals;
-	protected $errorMetric;
+	protected $errorMetric=0;
 	
 	
 	protected $perlin;
@@ -43,7 +43,9 @@ class ProceduralAdapter extends Adapter
 		
 		$this->sample3dSphere($bbox);
 		
-		$this->errorMetric=$this->calculateErrorMetric($bbox);
+		if($params['calculate-error-metric']){
+			$this->errorMetric=$this->calculateErrorMetric($bbox);
+		}
 
 	}
 	
