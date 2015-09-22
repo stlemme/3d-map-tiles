@@ -31,7 +31,8 @@ class ProceduralTerrain extends LayeredBackend
 			return null;
 
 		$params = array(
-			'vertex-normals' => $this->config('mesh.vertex-normals'),
+			'calculate-error-metric' => false,
+			'vertex-normals' => false,
 			'lod' => $this->config('texture.normalmap-lod')
 		);
 		
