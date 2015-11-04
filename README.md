@@ -26,9 +26,10 @@ Docker
 
 To ease the setup we provide pre-configured Docker images:
   * stlemme/3d-map-tiles
+  * fic2/3d-map-tiles
   
 ```
-sudo docker run -p 80:80 --name=my-3d stlemme/3d-map-tiles
+sudo docker run -p 80:80 --name=my-3d fic2/3d-map-tiles
 ```
 
 Configuration
