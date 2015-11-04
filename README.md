@@ -21,6 +21,16 @@ Installation
 - vim config.json
 - adapt line "RewriteBase /api/3d-map-tiles" in .htaccess if necessary
 
+Docker
+=====================
+
+To ease the setup we provide pre-configured Docker images:
+  * stlemme/3d-map-tiles
+  
+```
+sudo docker run -p 80:80 --name=my-3d stlemme/3d-map-tiles
+```
+
 Configuration
 =====================
  - update config.json accordingly to utilize different backends
