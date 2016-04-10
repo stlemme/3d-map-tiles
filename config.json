@@ -51,7 +51,7 @@
     "terrain-a" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 60,
+      "cache" : 3600,
 	  "mesh":{
 		"lod":5,
 		"shaded":false
@@ -79,7 +79,7 @@
     "terrain-b" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 60,
+      "cache" : 3600,
 	  "mesh":{
 		"lod":5,
 	    "vertex-normals": true,
@@ -92,7 +92,7 @@
     "terrain-d" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 60,
+      "cache" : 3600,
 	  "mesh":{
 		"lod":6,
 	    "vertex-normals": true,
@@ -105,7 +105,7 @@
     "terrain-f" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 60,
+      "cache" : 3600,
 	  "mesh":{
 		"lod":7,
 	    "vertex-normals": true,
@@ -157,7 +157,7 @@
     "terrain-g" : {
     "backend" : "procedural-terrain",
     "config" : {
-      "cache" : 60,
+      "cache" : 3600,
 	  "mesh":{
 		"lod":7,
 	    "vertex-normals": true,
