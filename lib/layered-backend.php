@@ -42,6 +42,13 @@ abstract class LayeredBackend extends Backend
 		$defs = $xml3d->addDefs();
 		$tf = $defs->addTransform($this->x . ' 0 ' . $this->y);
 		$tf->setId('tf');
+		
+		
+		
+		$data=$defs->addData();
+		$data->setId('meta-data');
+
+		
 
 		$all_assets = $xml3d->addAsset("all");
 

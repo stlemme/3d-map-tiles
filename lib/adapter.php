@@ -44,12 +44,11 @@ abstract class Adapter
 	}
 	
 	protected function tile_size(){
-		//todo: clarify if y+0.5 would also be valid/consistent
-		//y+0.5 would be more accurate/less weird to determine vertex-distance used in normalmap at low lod levels
+		
 	
 		//40075017 = earth equatorial circumference in meters
 		$n = pow(2, $this->z);
-		return cos(atan(sinh(pi() * (1.0 - 2.0 * ($this->y) / $n))))*40075017/$n;
+		return cos(atan(sinh(pi() * (1.0 - 2.0 * ($this->y+0.5) / $n))))*40075017/$n;
 	}
 	
 	protected function toMeters($str)

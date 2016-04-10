@@ -8,7 +8,7 @@
     }
   },
 
-  "oulu" : {
+  "oulu-terrain" : {
     "backend" : "gis-data-provider",
     "config" : {
       "wms" : {
@@ -48,6 +48,21 @@
 	
   },
   
+    "terrain-a" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 60,
+	  "mesh":{
+		"lod":5,
+		"shaded":false
+		},
+	  "texture":{
+		"normalmap-lod" : 7
+		}
+    }
+	
+  },
+  
     "terrain-vertex-normals" : {
     "backend" : "procedural-terrain",
     "config" : {
@@ -61,12 +76,90 @@
     }
   },
   
+    "terrain-b" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 60,
+	  "mesh":{
+		"lod":5,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":true
+	  }
+    }
+  },
+  
+    "terrain-d" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 60,
+	  "mesh":{
+		"lod":6,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":true
+	  }
+    }
+  },
+  
+    "terrain-f" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 60,
+	  "mesh":{
+		"lod":7,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":true
+	  }
+    }
+  },
+  
     "terrain-wireframe" : {
     "backend" : "procedural-terrain",
     "config" : {
       "cache" : 3600,
 	  "mesh":{
 		"lod":5,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":false
+	  }
+    }
+  },
+  
+    "terrain-c" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 3600,
+	  "mesh":{
+		"lod":5,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":false
+	  }
+    }
+  },
+  
+    "terrain-e" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 3600,
+	  "mesh":{
+		"lod":6,
+	    "vertex-normals": true,
+		"vertex-normals-lod":11,
+		"shaded":false
+	  }
+    }
+  },
+  
+    "terrain-g" : {
+    "backend" : "procedural-terrain",
+    "config" : {
+      "cache" : 60,
+	  "mesh":{
+		"lod":7,
 	    "vertex-normals": true,
 		"vertex-normals-lod":11,
 		"shaded":false
